@@ -30,12 +30,6 @@ jobs:
           path: ScriptDoInstalador.iss
           options: /O+ /dVersao="${{ env.VERSION }}"
 
-      - name: Fazer upload do instalador como artefato
-        uses: actions/upload-artifact@v4
-        with:
-          name: SkyInfo.Crva.Detran.Digitaliza.Monitor.Instalador.${{ env.VERSION }}.exe
-          path: D:\a\SkyInfo.Crva.Monitor.Instalador.Dev\SkyInfo.Crva.Monitor.Instalador.Dev\Instalador\SkyInfo.Crva.Detran.Digitaliza.Monitor.Instalador.exe
-
       - name: Criar release no GitHub
         id: create_release
         uses: ncipollo/release-action@v1.14.0
