@@ -87,7 +87,9 @@ begin
   PaginaInicial := CreateOutputMsgPage(
     wpWelcome,
     'Bem-vindo ao instalador do Monitor de Documentos do Sky Digitaliza!',
-    'Para que a instalação seja concluída com sucesso, certifique-se que não há nenhuma versão anterior (ou igual) da aplicação instalada no sistema.',
+    'Para que a instalação seja concluída com sucesso, certifique-se que a instalação está 
+    sendo executada com permissões administrativas e que o usuário logado na máquina esteja 
+    no mesmo domínio que o administrador.',
     ''
   );
 
