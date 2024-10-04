@@ -3,9 +3,9 @@
 
 ## Descrição
 
-Aplicação que roda como serviço do windows e monitora um diretório por documentos PDF. Ao detectar um documento que ainda não tenha sido enviado, o mesmo então tenta realizar o split do documento e enviá-lo para o servidor.
+Aplicação que roda como serviço do windows e monitora um diretório por documentos PDF. Ao detectar um documento que ainda não tenha sido enviado, é realizado o split e envio do documento para o servidor.
 
-### Compatibilidade: **Windows**
+### Compatibilidade: **Windows 10+**
 
 ## Instalação
 
