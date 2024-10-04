@@ -21,6 +21,7 @@ DefaultDirName={autopf}\{#NomeDaAplicacao}
 ArchitecturesInstallIn64BitMode=win64
 DefaultGroupName={#NomeDaAplicacao}
 DisableProgramGroupPage=yes
+; PrivilegesRequired=admin ; --> Para publicar uma versão final, deixa os privilégios como admin. Para testes, deixar como lowest.
 PrivilegesRequired=lowest
 OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
