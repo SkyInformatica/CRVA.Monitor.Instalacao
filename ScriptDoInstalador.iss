@@ -93,7 +93,7 @@ begin
 
   PaginaDeSelecaoDoDiretorioDeDocumentos := CreateInputDirPage(
     PaginaInicial.ID,
-    'Diretório de Documentos do Scanner',
+    'Diretório de Documentos para Envio',
     'Por favor, selecione o local onde o scanner irá depositar os documentos digitalizados.',
     '',
     True,
@@ -102,7 +102,7 @@ begin
 
   PaginaDeSelecaoDoDiretorioDeDocumentosEnviados := CreateInputDirPage(
     PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
-    'Diretório de Documentos do Enviados',
+    'Diretório de Documentos Enviados',
     'Por favor, selecione o local onde o monitor irá enviar os documentos que já foram enviados para o servidor.',
     '',
     True,
