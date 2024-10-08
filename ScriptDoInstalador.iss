@@ -212,14 +212,7 @@ begin
   
     NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
     SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
-
     DominioValido := '';
-    if not VerificarCredenciaisWindows(NomeUsuarioWindows, SenhaWindows) then
-    begin
-      Result := False;
-      MsgBox('Credenciais inválidas. Verifique as credenciais inseridas e tente novamente.', mbInformation, MB_OK);
-      Exit;
-    end;
   end;
 end;
 
