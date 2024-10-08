@@ -271,7 +271,7 @@ var
 begin
   if NomeUsuario = '' then
   begin
-    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto "', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj= "LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   end
   else
   begin
