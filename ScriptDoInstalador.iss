@@ -56,7 +56,7 @@ Type: files; Name: "{app}\Chave.txt";
 Type: files; Name: "{app}\appsettings.json";
 
 [Code]
-const Debug = True;
+const Debug = False;
 
 var
   PaginaInicial: TOutputMsgWizardPage;
@@ -272,6 +272,21 @@ begin
   end;
 end;
 
+procedure CriarServicoDoWindows(NomeUsuario, SenhaUsuario, DominioUsuario: string);
+var
+  ResultCode: Integer;
+begin
+  if NomeUsuario = '' then
+  begin
+    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto "', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  end
+  else
+  begin
+    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') +
+      '" start= auto obj= "' + DominioUsuario + '\' + NomeUsuario + '" password= "' + SenhaUsuario + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  end;
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
@@ -296,29 +311,20 @@ begin
     NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
     SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
     ObterDominioDoUsuario(Dominio);
-
-    if Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') +
-      '" start= auto obj= "' + Dominio + '\' + NomeUsuarioWindows + '" password= "' + SenhaWindows + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    
+    CriarServicoDoWindows(NomeUsuarioWindows, SenhaWindows, Dominio);
+    ExibirMensagemComResultCode('Serviço criado', ResultCode);
+    Sleep(1500);
+    if Exec('sc', 'start {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço criado', ResultCode);
-      Sleep(1500);
-      if Exec('sc', 'start {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-      begin
-        ExibirMensagemComResultCode('Serviço iniciado', ResultCode);
-      end
-      else
-      begin
-        ExibirMensagemComResultCode('Erro ao tentar iniciar o serviço no Windows', ResultCode);
-      end;
+      ExibirMensagemComResultCode('Serviço iniciado', ResultCode);
     end
     else
     begin
-      ExibirMensagemComResultCode('Erro ao tentar criar o serviço no Windows', ResultCode);
-      Abort;
+      ExibirMensagemComResultCode('Erro ao tentar iniciar o serviço no Windows', ResultCode);
     end;
   end;
 end;
-
 
 procedure CurUninstallStepChanged(CurStep: TUninstallStep);
 var
