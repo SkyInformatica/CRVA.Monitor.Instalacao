@@ -61,10 +61,12 @@ const Debug = False;
 var
   PaginaInicial: TOutputMsgWizardPage;
   PaginaDeSelecaoDoDiretorioDeDocumentos: TInputDirWizardPage;
+  PaginaDeSelecaoDoTipoDeInicializacaoDoServico: TInputOptionWizardPage;
   PaginaDeSelecaoDoDiretorioDeDocumentosEnviados: TInputDirWizardPage;
   PaginaDeCredenciaisDoUsuario: TInputQueryWizardPage;
   PaginaDeSelecaoDaOrganizacao: TInputOptionWizardPage;
   PaginaDeCredenciaisDoWindows: TInputQueryWizardPage;
+  UtilizarCredenciaisDoWindows: Boolean;
   Organizacoes: TOrganizacoes;
   OrganizacaoId, DiretorioDeDocumentosEnviados, DiretorioDeDocumentos, Email, Senha, DominioValido: String;
 
@@ -75,6 +77,11 @@ begin
   begin
     OrganizacaoId := Organizacoes[0].Id;
   end;
+end;
+
+function NaoUtilizarCredenciaisDoWindows(Page: TWizardPage): Boolean;
+begin
+  Result := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0] = False;
 end;
 
 function InstalacaoEm32Bits: Boolean;
@@ -93,8 +100,8 @@ begin
 
   PaginaDeSelecaoDoDiretorioDeDocumentos := CreateInputDirPage(
     PaginaInicial.ID,
-    'Diretório de Documentos para Envio',
-    'Por favor, selecione o local onde o scanner irá depositar os documentos digitalizados.',
+    'Diretório de Documentos do Scanner',
+    'Por favor, selecione o local onde estão armazenados os documentos digitalizados pelo scanner.',
     '',
     True,
     ''
@@ -103,17 +110,26 @@ begin
   PaginaDeSelecaoDoDiretorioDeDocumentosEnviados := CreateInputDirPage(
     PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
     'Diretório de Documentos Enviados',
-    'Por favor, selecione o local onde o monitor irá enviar os documentos que já foram enviados para o servidor.',
+    'Por favor, selecione o local onde o monitor irá armazenar os documentos que já foram enviados para o servidor do Sky Digitaliza.',
     '',
     True,
     ''
   );
+  
+  PaginaDeSelecaoDoTipoDeInicializacaoDoServico := CreateInputOptionPage(
+    PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.ID,
+    'Tipo de Instalação', 
+    'Utilizar usuário e senha administrativa para criar o serviço?',
+    'Caso sua máquina tenha políticas de permissão rígorosas, assinale esta opção.',
+    False, 
+    False
+  );
 
   PaginaDeCredenciaisDoWindows := CreateInputQueryPage(
-    PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.ID,
+    PaginaDeSelecaoDoTipoDeInicializacaoDoServico.ID,
     'Credenciais de Administrador do Windows',
     'Por favor, preencha os campos a seguir com as credenciais de administrador da sua máquina. Isso é necessário para que a aplicação funcione como esperado.',
-    'Caso seja uma máquina em domínio local, e a conta administratica também esteja na mesma máquina, pode-se deixar o campo "Domínio" vazio.'
+    ''
   );
 
   PaginaDeCredenciaisDoUsuario := CreateInputQueryPage(
@@ -132,7 +148,11 @@ begin
       False
   );
 
+  PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Add('Utilizar credenciais administrativas.');
+  PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0] := False;
+  
   PaginaDeSelecaoDaOrganizacao.OnShouldSkipPage := @DevePularPaginaDeOrganizacao;
+  PaginaDeCredenciaisDoWindows.OnShouldSkipPage := @NaoUtilizarCredenciaisDoWindows;
   
   PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
   PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.Add('');
@@ -205,11 +225,6 @@ begin
   end
   else if CurPageID = PaginaDeCredenciaisDoWindows.ID then
   begin
-    if not IsAdmin() then
-    begin
-      Exit;
-    end;
-  
     NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
     SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
     DominioValido := '';
@@ -269,9 +284,10 @@ procedure CriarServicoDoWindows(NomeUsuario, SenhaUsuario, DominioUsuario: strin
 var
   ResultCode: Integer;
 begin
-  if NomeUsuario = '' then
+  UtilizarCredenciaisDoWindows := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0];
+  if not UtilizarCredenciaisDoWindows then
   begin
-    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj= "LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj="LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   end
   else
   begin
