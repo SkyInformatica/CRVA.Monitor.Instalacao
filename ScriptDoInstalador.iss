@@ -1,8 +1,8 @@
-#define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor"
+#define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.Gerenciador"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
-#define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.exe"
-#define CaminhoDaFonteDaAplicacao "src"
+#define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.exe"
+#define CaminhoDaFonteDaAplicacao "gerenciador"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
 
 #include "Dependências\CodeDependencies.iss"
@@ -21,12 +21,11 @@ DefaultDirName={autopf}\{#NomeDaAplicacao}
 ArchitecturesInstallIn64BitMode=win64
 DefaultGroupName={#NomeDaAplicacao}
 DisableProgramGroupPage=yes
-; PrivilegesRequired=admin ; --> Para publicar uma versão final, deixa os privilégios como admin. Para testes, deixar como lowest.
 PrivilegesRequired=admin
 OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
 SolidCompression=yes
-OutputDir=D:\a\SkyInfo.Crva.Monitor.Instalador.Dev\SkyInfo.Crva.Monitor.Instalador.Dev\Instalador
+OutputDir=D:\a\SkyInfo.Crva.Monitor.Instalador.Teste\SkyInfo.Crva.Monitor.Instalador.Teste\Instalador
 WizardStyle=modern
 CloseApplications=force
 MergeDuplicateFiles=no
@@ -39,14 +38,14 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\Registros.db"; DestDir: "{app}"; Flags: noencryption nocompression; Check: Is64BitInstallMode;
+; Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\Registros.db"; DestDir: "{app}"; Flags: noencryption nocompression; Check: Is64BitInstallMode;
 
 ; --> Arquivos x86
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\Registros.db"; DestDir: "{app}"; Flags: noencryption nocompression; Check: InstalacaoEm32Bits;
+; Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\Registros.db"; DestDir: "{app}"; Flags: noencryption nocompression; Check: InstalacaoEm32Bits;
 
 [UninstallDelete]
 Type: files; Name: "{app}\Chave.txt";
