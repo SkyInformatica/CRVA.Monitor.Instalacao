@@ -1,4 +1,4 @@
-#define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.Gerenciador"
+#define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.exe"
@@ -25,7 +25,7 @@ PrivilegesRequired=admin
 OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
 SolidCompression=yes
-OutputDir=D:\a\SkyInfo.Crva.Monitor.Instalador.Dev\SkyInfo.Crva.Monitor.Instalador.Dev\Instalador
+OutputDir=D:\a\{#NomeDaAplicacao}\{#NomeDaAplicacao}\Instalador
 WizardStyle=modern
 CloseApplications=force
 MergeDuplicateFiles=no
