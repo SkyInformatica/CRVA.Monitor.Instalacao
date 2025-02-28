@@ -36,7 +36,7 @@ jobs:
         with:
           name: Sky Digitaliza - Monitor v${{ env.VERSION }}
           tag: v${{ env.VERSION }}
-          artifacts: D:\a\SkyInfo.Crva.Monitor.GerenciadorDeVersões.Instalador.Dev\SkyInfo.Crva.Monitor.GerenciadorDeVersões.Instalador.Dev\Instalador\SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.Instalador.exe
+          artifacts: D:\a\SkyInfo.Crva.Monitor.Instalador.Dev\SkyInfo.Crva.Monitor.Instalador.Dev\Instalador\SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.Instalador.exe
           artifactContentType: application/octet-stream
           makeLatest: true
           generateReleaseNotes: true
