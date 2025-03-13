@@ -1,4 +1,5 @@
 #define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões"
+#define NomeDoMonitorNoSistema "SkyInfo.Crva.Detran.Digitaliza.Monitor"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.exe"
@@ -342,13 +343,24 @@ begin
   begin
     if Exec('sc', 'stop {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço no Windows foi Parado', ResultCode);
+      ExibirMensagemComResultCode('Serviço do Gerenciador no Windows foi Parado', ResultCode);
       Sleep(1000);
     end;
     
     if Exec('sc', 'delete {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço no Windows foi deletado', ResultCode);
+      ExibirMensagemComResultCode('Serviço do Gerenciador no Windows foi deletado', ResultCode);
+    end;
+	
+	if Exec('sc', 'stop {#NomeDoMonitorNoSistema}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      ExibirMensagemComResultCode('Serviço do Monitor no Windows foi Parado', ResultCode);
+      Sleep(1000);
+    end;
+    
+    if Exec('sc', 'delete {#NomeDoMonitorNoSistema}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      ExibirMensagemComResultCode('Serviço do Monitor no Windows foi deletado', ResultCode);
     end;
     
     Sleep(1000);
