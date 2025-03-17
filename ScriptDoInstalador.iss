@@ -50,10 +50,12 @@ Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appse
 
 [UninstallDelete]
 Type: files; Name: "{app}\Chave.txt";
+Type: filesandordirs; Name: "{app}\Monitor";
 
 [InstallDelete]
 Type: files; Name: "{app}\Chave.txt"; 
 Type: files; Name: "{app}\appsettings.json";
+Type: filesandordirs; Name: "{app}\Monitor";
 
 [Code]
 const Debug = False;
