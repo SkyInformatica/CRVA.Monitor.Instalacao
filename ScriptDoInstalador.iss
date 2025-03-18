@@ -38,14 +38,14 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\Registros.db"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
+Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\*"; DestDir: "{app}"; Flags: uninsneveruninstall noencryption nocompression; Check: Is64BitInstallMode;
 
 ; --> Arquivos x86
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\Registros.db"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}"; Flags: noencryption uninsneveruninstall nocompression; Check: InstalacaoEm32Bits;
 
 [UninstallDelete]
