@@ -3,11 +3,8 @@ on:
   push:
     branches:
       - "main"
-    paths: 
-      - src
-      - gerenciador
-      - Dependências
-      - '*.iss'
+    paths-ignore: 
+      - README.md
 
 permissions:
   contents: write
