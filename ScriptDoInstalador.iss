@@ -109,7 +109,7 @@ begin
   );
   
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico := CreateInputOptionPage(
-    PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.ID,
+    PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
     'Tipo de Instalação', 
     'Utilizar usuário e senha administrativa para criar o serviço?',
     'Caso sua máquina tenha políticas de permissão rígorosas, assinale esta opção.',
