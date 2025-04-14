@@ -64,13 +64,12 @@ var
   PaginaInicial: TOutputMsgWizardPage;
   PaginaDeSelecaoDoDiretorioDeDocumentos: TInputDirWizardPage;
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico: TInputOptionWizardPage;
-  PaginaDeSelecaoDoDiretorioDeDocumentosEnviados: TInputDirWizardPage;
   PaginaDeCredenciaisDoUsuario: TInputQueryWizardPage;
   PaginaDeSelecaoDaOrganizacao: TInputOptionWizardPage;
   PaginaDeCredenciaisDoWindows: TInputQueryWizardPage;
   UtilizarCredenciaisDoWindows: Boolean;
   Organizacoes: TOrganizacoes;
-  OrganizacaoId, DiretorioDeDocumentosEnviados, DiretorioDeDocumentos, Email, Senha, DominioValido: String;
+  OrganizacaoId, DiretorioDeDocumentos, Email, Senha, DominioValido: String;
 
 function DevePularPaginaDeOrganizacao(Page: TWizardPage): Boolean;
 begin
@@ -103,17 +102,8 @@ begin
   PaginaDeSelecaoDoDiretorioDeDocumentos := CreateInputDirPage(
     PaginaInicial.ID,
     'Diretório de Documentos do Scanner',
-    'Por favor, selecione o local onde estão armazenados os documentos digitalizados pelo scanner.',
-    '',
-    True,
-    ''
-  );
-
-  PaginaDeSelecaoDoDiretorioDeDocumentosEnviados := CreateInputDirPage(
-    PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
-    'Diretório de Documentos Enviados',
-    'Por favor, selecione o local onde o monitor irá armazenar os documentos que já foram enviados para o servidor do Sky Digitaliza.',
-    '',
+    'Por favor, selecione o diretório de monitoração, nele serão criadas as pastas "Processados" e "Scaneados", caso ainda não existam. Assim que a instalação for concluída, aponte o diretório de saída do scanner para o diretório "Scaneados" para que os documentos sejam digitalizados.',
+    'Os documentos que forem enviados para o servidor do Sky Digitaliza serão armazenados na pasta "Processados", os que ainda não foram enviados devem ser armazenados na pasta "Scaneados".',
     True,
     ''
   );
@@ -157,7 +147,6 @@ begin
   PaginaDeCredenciaisDoWindows.OnShouldSkipPage := @NaoUtilizarCredenciaisDoWindows;
   
   PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
-  PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.Add('');
 
   PaginaDeCredenciaisDoUsuario.Add('Email:', False);
   PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
@@ -254,7 +243,6 @@ var
 begin
   CaminhoDoAppSettings := ExpandConstant('{app}\appsettings.json');
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
-  DiretorioDeDocumentosEnviados := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.Values[0], '\', '/');
   JSONString := ObterTextoDoArquivo(CaminhoDoAppSettings);
   if JSONString = '' then
   begin
@@ -263,7 +251,6 @@ begin
   end;
   
   JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
-  JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_ENVIOS"', '"' + DiretorioDeDocumentosEnviados + '"');
   JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
   JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
   JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
