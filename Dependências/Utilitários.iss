@@ -1,7 +1,7 @@
 #include 'JsonUtils.iss'
 
 [Code]
-const EndpointDeAutenticacao = 'https://api.crva.inkrnl.com/api/autenticacao/autenticar';
+const EndpointDeAutenticacao = 'https://skydigitalliza-servidor.skyinfo.cc/api/autenticacao/autenticar';
 
 // Exec with output stored in result.
 // ResultString will only be altered if True is returned.
