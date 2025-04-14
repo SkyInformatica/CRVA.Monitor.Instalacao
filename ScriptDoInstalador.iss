@@ -102,8 +102,8 @@ begin
   PaginaDeSelecaoDoDiretorioDeDocumentos := CreateInputDirPage(
     PaginaInicial.ID,
     'Diretório de Documentos do Scanner',
-    'Por favor, selecione o diretório de monitoração, nele serão criadas as pastas "Processados" e "Scaneados", caso ainda não existam. Assim que a instalação for concluída, aponte o diretório de saída do scanner para o diretório "Scaneados" para que os documentos sejam digitalizados.',
-    'Os documentos que forem enviados para o servidor do Sky Digitaliza serão armazenados na pasta "Processados", os que ainda não foram enviados devem ser armazenados na pasta "Scaneados".',
+    'Por favor, selecione o diretório de monitoração, nele serão criadas as pastas "Processados" e "Scaneados", caso ainda não existam.',
+    'Os documentos que forem enviados para o servidor do Sky Digitaliza serão armazenados na pasta "Processados", os que ainda não foram enviados devem ser armazenados na pasta "Scaneados". Assim que a instalação for concluída, aponte o diretório de saída do scanner para o diretório "Scaneados" para que os documentos sejam digitalizados.',
     True,
     ''
   );
