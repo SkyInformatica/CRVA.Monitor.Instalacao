@@ -1,8 +1,8 @@
-#define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões"
+#define NomeDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações"
 #define NomeDoMonitorNoSistema "SkyInfo.Crva.Detran.Digitaliza.Monitor"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
-#define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.exe"
+#define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
 #define CaminhoDaFonteDaAplicacao "gerenciador"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
 
@@ -69,7 +69,7 @@ var
   PaginaDeCredenciaisDoWindows: TInputQueryWizardPage;
   UtilizarCredenciaisDoWindows: Boolean;
   Organizacoes: TOrganizacoes;
-  OrganizacaoId, DiretorioDeDocumentos, Email, Senha, DominioValido: String;
+  OrganizacaoId, DiretorioDeDocumentos, Email, Senha, DominioValido, NomeUsuarioWindows, SenhaWindows: String;
 
 function DevePularPaginaDeOrganizacao(Page: TWizardPage): Boolean;
 begin
@@ -163,7 +163,7 @@ end;
 
 function NextButtonClick(CurPageID: Integer): Boolean;
 var
-  NomeUsuarioWindows, SenhaWindows, JsonResponse: string;
+  JsonResponse: string;
   I, OrganizacoesSelecionadas: Integer;
 begin
   Result := True;
@@ -251,9 +251,11 @@ begin
   end;
   
   JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
-  JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
-  JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
-  JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
+  JSONString := SubstituirString(JSONString, '"EMAIL"', '"' + Email + '"');
+  JSONString := SubstituirString(JSONString, '"SENHA"', '"' + Senha + '"');
+  JSONString := SubstituirString(JSONString, '"ORGANIZACAO"', '"' + OrganizacaoId + '"');
+  JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
+  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
 
   SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
 end;
@@ -288,7 +290,7 @@ end;
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
-  NomeUsuarioWindows, SenhaWindows, Dominio: string;
+  Dominio: string;
 begin
   if CurStep = ssInstall then
   begin
