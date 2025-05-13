@@ -1,15 +1,15 @@
 name: Build do Instalador
-on: 
+on:
   push:
     branches:
       - "main"
-    paths-ignore: 
+    paths-ignore:
       - README.md
 
 permissions:
   contents: write
   packages: write
-  
+
 jobs:
   build:
     name: Build do Instalador Inno
@@ -20,9 +20,9 @@ jobs:
       - name: Calcular versão
         id: calcular_versao
         run: |
-          $minor = [math]::Floor(${{ github.run_number }} / 10)
-          $patch = ${{ github.run_number }} % 10
-          $version = "1.1.$minor.$patch"
+          $date = Get-Date -Format 'yyyyMMdd'
+          $increment = ${{ github.run_number }}
+          $version = "$date.$increment"
           echo "VERSION=$version" >> $env:GITHUB_ENV
         shell: pwsh
 
@@ -36,9 +36,9 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1.14.0
         with:
-          name: Sky Digitaliza - Monitor v${{ env.VERSION }}
-          tag: v${{ env.VERSION }}
-          artifacts: D:\a\SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões\SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões\Instalador\SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.Instalador.exe
+          name: Sky Digitaliza - Desktop v${{ env.VERSION }}
+          tag: ${{ env.VERSION }}
+          artifacts: D:\a\SkyDigitalliza.Desktop\SkyDigitalliza.Desktop\Instalador\SkyDigitalliza.Desktop.Instalador.exe
           artifactContentType: application/octet-stream
           makeLatest: true
           generateReleaseNotes: true

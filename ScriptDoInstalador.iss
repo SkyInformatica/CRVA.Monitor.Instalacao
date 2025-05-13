@@ -1,5 +1,5 @@
-#define NomeDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações"
-#define NomeDoMonitorNoSistema "SkyInfo.Crva.Detran.Digitaliza.Monitor"
+#define NomeDaAplicacao "SkyDigitalliza.Desktop"
+#define NomeDoMonitorNoSistema "SkyInfo.Crva.Digitalliza.Desktop.Serviço.Monitor"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
@@ -278,11 +278,11 @@ begin
   UtilizarCredenciaisDoWindows := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0];
   if not UtilizarCredenciaisDoWindows then
   begin
-    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj="LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    Exec('sc', 'create {#NomeDaAplicacao} displayName="Sky Digitaliza - Desktop" binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj="LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   end
   else
   begin
-    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') +
+    Exec('sc', 'create {#NomeDaAplicacao} displayName="Sky Digitaliza - Desktop" binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') +
       '" start= auto obj= "' + DominioUsuario + '\' + NomeUsuario + '" password= "' + SenhaUsuario + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   end;
 end;
