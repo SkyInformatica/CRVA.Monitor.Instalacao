@@ -7,15 +7,15 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {},
     ".NETCoreApp,Version=v8.0/win-x86": {
-      "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões/1.0.0": {
+      "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Hosting": "9.0.4",
-          "Microsoft.Extensions.Hosting.WindowsServices": "9.0.4",
-          "SkyInfo.Crva.Detran.Digitaliza.Compartilhado": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.GerenciadorDeAplicações": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento": "1.0.0",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x86": "8.0.15"
         },
         "runtime": {
-          "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões.dll": {}
+          "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.dll": {}
         }
       },
       "runtimepack.Microsoft.NETCore.App.Runtime.win-x86/8.0.15": {
@@ -737,6 +737,107 @@
           }
         }
       },
+      "Ben.Demystifier/0.4.1": {
+        "dependencies": {
+          "System.Reflection.Metadata": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Ben.Demystifier.dll": {
+            "assemblyVersion": "0.4.0.0",
+            "fileVersion": "0.4.0.2"
+          }
+        }
+      },
+      "Elastic.Channels/0.7.5": {
+        "dependencies": {
+          "System.Threading.Channels": "8.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Elastic.Channels.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.7.5.0"
+          }
+        }
+      },
+      "Elastic.CommonSchema/8.12.3": {
+        "dependencies": {
+          "Ben.Demystifier": "0.4.1"
+        },
+        "runtime": {
+          "lib/net6.0/Elastic.CommonSchema.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.12.3.0"
+          }
+        }
+      },
+      "Elastic.CommonSchema.Serilog/8.12.3": {
+        "dependencies": {
+          "Elastic.CommonSchema": "8.12.3",
+          "Serilog": "4.2.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Elastic.CommonSchema.Serilog.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.12.3.0"
+          }
+        }
+      },
+      "Elastic.Ingest.Elasticsearch/0.7.5": {
+        "dependencies": {
+          "Elastic.Ingest.Transport": "0.7.5"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Elastic.Ingest.Elasticsearch.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.7.5.0"
+          }
+        }
+      },
+      "Elastic.Ingest.Elasticsearch.CommonSchema/8.12.3": {
+        "dependencies": {
+          "Elastic.CommonSchema": "8.12.3",
+          "Elastic.Ingest.Elasticsearch": "0.7.5"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Elastic.Ingest.Elasticsearch.CommonSchema.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.12.3.0"
+          }
+        }
+      },
+      "Elastic.Ingest.Transport/0.7.5": {
+        "dependencies": {
+          "Elastic.Channels": "0.7.5",
+          "Elastic.Transport": "0.5.6",
+          "System.Threading.Channels": "8.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Elastic.Ingest.Transport.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.7.5.0"
+          }
+        }
+      },
+      "Elastic.Serilog.Sinks/8.12.3": {
+        "dependencies": {
+          "Elastic.CommonSchema.Serilog": "8.12.3",
+          "Elastic.Ingest.Elasticsearch.CommonSchema": "8.12.3"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Elastic.Serilog.Sinks.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.12.3.0"
+          }
+        }
+      },
+      "Elastic.Transport/0.5.6": {
+        "runtime": {
+          "lib/net8.0/Elastic.Transport.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.5.6.0"
+          }
+        }
+      },
       "Elasticsearch.Net/7.17.5": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -770,6 +871,14 @@
           "lib/netstandard2.0/JsonNet.ContractResolvers.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "LightHTTP/1.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/LightHTTP.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -1117,6 +1226,22 @@
           }
         }
       },
+      "Microsoft.Extensions.Http/8.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.4",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4",
+          "Microsoft.Extensions.Diagnostics": "9.0.4",
+          "Microsoft.Extensions.Logging": "9.0.4",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.4",
+          "Microsoft.Extensions.Options": "9.0.4"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Http.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
       "Microsoft.Extensions.Logging/9.0.4": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "9.0.4",
@@ -1324,6 +1449,7 @@
           }
         }
       },
+      "PDFium.WindowsV2/1.1.4": {},
       "PDFiumSharpV2/1.1.4": {
         "dependencies": {
           "NETStandard.Library": "2.0.3",
@@ -1522,6 +1648,17 @@
           }
         }
       },
+      "Serilog.Sinks.Debug/3.0.0": {
+        "dependencies": {
+          "Serilog": "4.2.0"
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.Sinks.Debug.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      },
       "Serilog.Sinks.Elasticsearch/10.0.0": {
         "dependencies": {
           "Elasticsearch.Net": "7.17.5",
@@ -1577,6 +1714,26 @@
           }
         }
       },
+      "SkiaSharp/3.116.1": {
+        "dependencies": {
+          "SkiaSharp.NativeAssets.Win32": "3.116.1",
+          "SkiaSharp.NativeAssets.macOS": "3.116.1"
+        },
+        "runtime": {
+          "lib/net8.0/SkiaSharp.dll": {
+            "assemblyVersion": "3.116.0.0",
+            "fileVersion": "3.116.1.0"
+          }
+        }
+      },
+      "SkiaSharp.NativeAssets.macOS/3.116.1": {},
+      "SkiaSharp.NativeAssets.Win32/3.116.1": {
+        "native": {
+          "runtimes/win-x86/native/libSkiaSharp.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "SkyInfo.Core.Dominio/4.3.2": {
         "dependencies": {
           "MediatR": "12.2.0",
@@ -1619,6 +1776,42 @@
           "lib/net8.0/SkyInfo.Core.Dominio.Token.dll": {
             "assemblyVersion": "2.3.1.0",
             "fileVersion": "2.3.1.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Detran.Digitaliza.Compartilhado/0.0.2": {
+        "dependencies": {
+          "JsonNet.ContractResolvers": "2.0.0",
+          "Microsoft.EntityFrameworkCore": "8.0.15",
+          "Microsoft.Extensions.Caching.Hybrid": "9.4.0",
+          "Microsoft.Extensions.Configuration": "9.0.4",
+          "Microsoft.Extensions.Configuration.Binder": "9.0.4",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.4",
+          "Microsoft.IdentityModel.JsonWebTokens": "8.8.0",
+          "Newtonsoft.Json": "13.0.3",
+          "PDFiumSharpV2": "1.1.4",
+          "Serilog": "4.2.0",
+          "Serilog.Enrichers.Context": "4.6.5",
+          "Serilog.Enrichers.Environment": "3.0.1",
+          "Serilog.Exceptions": "8.4.0",
+          "Serilog.Exceptions.EntityFrameworkCore": "8.4.0",
+          "Serilog.Extensions.Hosting": "9.0.0",
+          "Serilog.Extensions.Logging": "9.0.1",
+          "Serilog.Extensions.Logging.File": "3.0.0",
+          "Serilog.Settings.Configuration": "9.0.0",
+          "Serilog.Sinks.Console": "6.0.0",
+          "Serilog.Sinks.Elasticsearch": "10.0.0",
+          "SkyInfo.Core.Dominio": "4.3.2",
+          "SkyInfo.Core.Dominio.Geral.Contato": "1.0.2",
+          "SkyInfo.Core.Dominio.Token": "2.3.1",
+          "SkyInfo.Infra.Armazenamento.EntityFramework": "2.0.1",
+          "SkyInfo.Infra.Geral": "2.2.0",
+          "System.Collections.Specialized": "4.3.0"
+        },
+        "runtime": {
+          "lib/net8.0/SkyInfo.Crva.Detran.Digitaliza.Compartilhado.dll": {
+            "assemblyVersion": "0.0.2.0",
+            "fileVersion": "0.0.2.0"
           }
         }
       },
@@ -1757,6 +1950,18 @@
         }
       },
       "System.ComponentModel.Annotations/4.4.1": {},
+      "System.Configuration.ConfigurationManager/8.0.1": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "9.0.4",
+          "System.Security.Cryptography.ProtectedData": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/System.Configuration.ConfigurationManager.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
       "System.Diagnostics.Debug/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -1863,6 +2068,7 @@
           "runtime.any.System.Reflection.Extensions": "4.3.0"
         }
       },
+      "System.Reflection.Metadata/5.0.0": {},
       "System.Reflection.Primitives/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -1887,6 +2093,17 @@
           "Microsoft.NETCore.Platforms": "1.1.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "runtime.any.System.Runtime": "4.3.0"
+        }
+      },
+      "System.Runtime.Caching/8.0.1": {
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "8.0.1"
+        },
+        "runtime": {
+          "runtimes/win/lib/net8.0/System.Runtime.Caching.dll": {
+            "assemblyVersion": "8.0.0.1",
+            "fileVersion": "8.0.1024.46610"
+          }
         }
       },
       "System.Runtime.CompilerServices.Unsafe/4.7.1": {},
@@ -1926,6 +2143,14 @@
           "System.Runtime.InteropServices": "4.3.0",
           "System.Threading": "4.3.0",
           "runtime.native.System": "4.3.0"
+        }
+      },
+      "System.Security.Cryptography.ProtectedData/8.0.0": {
+        "runtime": {
+          "lib/net8.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
         }
       },
       "System.Security.Permissions/8.0.0": {
@@ -2011,37 +2236,135 @@
           }
         }
       },
-      "SkyInfo.Crva.Detran.Digitaliza.Compartilhado/1.0.0": {
+      "ZXing.Net/0.16.10": {
+        "runtime": {
+          "lib/net8.0/zxing.dll": {
+            "assemblyVersion": "0.16.10.0",
+            "fileVersion": "0.16.10.0"
+          }
+        }
+      },
+      "ZXing.Net.Bindings.SkiaSharp/0.16.21": {
         "dependencies": {
-          "JsonNet.ContractResolvers": "2.0.0",
-          "Microsoft.EntityFrameworkCore": "8.0.15",
-          "Microsoft.Extensions.Caching.Hybrid": "9.4.0",
-          "Microsoft.Extensions.Configuration": "9.0.4",
-          "Microsoft.Extensions.Configuration.Binder": "9.0.4",
-          "Microsoft.Extensions.Logging.Abstractions": "9.0.4",
-          "Microsoft.IdentityModel.JsonWebTokens": "8.8.0",
-          "Newtonsoft.Json": "13.0.3",
-          "PDFiumSharpV2": "1.1.4",
-          "Serilog": "4.2.0",
-          "Serilog.Enrichers.Context": "4.6.5",
-          "Serilog.Enrichers.Environment": "3.0.1",
-          "Serilog.Exceptions": "8.4.0",
-          "Serilog.Exceptions.EntityFrameworkCore": "8.4.0",
-          "Serilog.Extensions.Hosting": "9.0.0",
-          "Serilog.Extensions.Logging": "9.0.1",
-          "Serilog.Extensions.Logging.File": "3.0.0",
-          "Serilog.Settings.Configuration": "9.0.0",
-          "Serilog.Sinks.Console": "6.0.0",
-          "Serilog.Sinks.Elasticsearch": "10.0.0",
-          "SkyInfo.Core.Dominio": "4.3.2",
-          "SkyInfo.Core.Dominio.Geral.Contato": "1.0.2",
-          "SkyInfo.Core.Dominio.Token": "2.3.1",
-          "SkyInfo.Infra.Armazenamento.EntityFramework": "2.0.1",
-          "SkyInfo.Infra.Geral": "2.2.0",
-          "System.Collections.Specialized": "4.3.0"
+          "SkiaSharp": "3.116.1",
+          "ZXing.Net": "0.16.10"
         },
         "runtime": {
-          "SkyInfo.Crva.Detran.Digitaliza.Compartilhado.dll": {
+          "lib/net8.0/ZXing.SkiaSharp.dll": {
+            "assemblyVersion": "0.16.21.0",
+            "fileVersion": "0.16.21.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.Genérica/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Memory": "9.0.4",
+          "Microsoft.Extensions.Http": "8.0.1",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0",
+          "SkyInfo.Infra.Geral": "2.2.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.Genérica.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.GerenciadorDeAplicações/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.4",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.4",
+          "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.Genérica": "1.0.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.GerenciadorDeAplicações.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "SkyInfo.Core.Dominio.Token": "2.3.1",
+          "SkyInfo.Crva.Detran.Digitaliza.Compartilhado": "0.0.2",
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "9.0.4",
+          "Microsoft.Extensions.Caching.Memory": "9.0.4",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento/1.0.0": {
+        "dependencies": {
+          "PDFium.WindowsV2": "1.1.4",
+          "PDFiumSharpV2": "1.1.4",
+          "SkyInfo.Crva.Detran.Digitaliza.Compartilhado": "0.0.2",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0",
+          "ZXing.Net": "0.16.10",
+          "ZXing.Net.Bindings.SkiaSharp": "0.16.21"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows/1.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Hosting": "9.0.4",
+          "Microsoft.Extensions.Hosting.WindowsServices": "9.0.4",
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura/1.0.0": {
+        "dependencies": {
+          "Elastic.Serilog.Sinks": "8.12.3",
+          "LightHTTP": "1.0.2",
+          "Microsoft.Extensions.Caching.Memory": "9.0.4",
+          "Microsoft.Extensions.DependencyInjection": "9.0.4",
+          "Microsoft.Extensions.Http": "8.0.1",
+          "Newtonsoft.Json": "13.0.3",
+          "Serilog": "4.2.0",
+          "Serilog.Enrichers.Environment": "3.0.1",
+          "Serilog.Exceptions": "8.4.0",
+          "Serilog.Extensions.Hosting": "9.0.0",
+          "Serilog.Extensions.Logging": "9.0.1",
+          "Serilog.Formatting.Elasticsearch": "10.0.0",
+          "Serilog.Sinks.Debug": "3.0.0",
+          "SkyInfo.Crva.Detran.Digitaliza.Compartilhado": "0.0.2",
+          "System.Runtime.Caching": "8.0.1"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -2050,7 +2373,7 @@
     }
   },
   "libraries": {
-    "SkyInfo.Crva.Detran.Digitaliza.Monitor.GerenciadorDeVersões/1.0.0": {
+    "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -2066,6 +2389,69 @@
       "sha512": "sha512-/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
       "path": "automapper/13.0.1",
       "hashPath": "automapper.13.0.1.nupkg.sha512"
+    },
+    "Ben.Demystifier/0.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-axFeEMfmEORy3ipAzOXG/lE+KcNptRbei3F0C4kQCdeiQtW+qJW90K5iIovITGrdLt8AjhNCwk5qLSX9/rFpoA==",
+      "path": "ben.demystifier/0.4.1",
+      "hashPath": "ben.demystifier.0.4.1.nupkg.sha512"
+    },
+    "Elastic.Channels/0.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9yzirOyzChXiwdhPYx7t5eiMJsTuPx53PQ1tYS6XmXvid9nQxsqZX3AnDyIRw1Sh3wceA9IwXNsmxeBBhsnvmw==",
+      "path": "elastic.channels/0.7.5",
+      "hashPath": "elastic.channels.0.7.5.nupkg.sha512"
+    },
+    "Elastic.CommonSchema/8.12.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OimVstLVyxewpjxhBwrK8HvTunvvOtUTUDOIq3edkUAIsb1Um8Auvo+cDTEuOH2pGihJWuBoiBn4stdE+tCXmA==",
+      "path": "elastic.commonschema/8.12.3",
+      "hashPath": "elastic.commonschema.8.12.3.nupkg.sha512"
+    },
+    "Elastic.CommonSchema.Serilog/8.12.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-17h4Mtl0L2dB3gtg5/imcecGAti8Nw5T0aupHlc9CGKpKdd/CKoEejVN2jWISWphgZXtf7sbEyMjixiBXDmI8A==",
+      "path": "elastic.commonschema.serilog/8.12.3",
+      "hashPath": "elastic.commonschema.serilog.8.12.3.nupkg.sha512"
+    },
+    "Elastic.Ingest.Elasticsearch/0.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Pz3+NNo6jdoyJHb2/3Nq9VcxhBaEE54M1XOJJ4O00eQ2Fsw05JUIYwD9lfUNofvQkMh7IwVTdCVdsumcxeEVBQ==",
+      "path": "elastic.ingest.elasticsearch/0.7.5",
+      "hashPath": "elastic.ingest.elasticsearch.0.7.5.nupkg.sha512"
+    },
+    "Elastic.Ingest.Elasticsearch.CommonSchema/8.12.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7/PcUfN7xTi7DUNT5qWzYLpk4OeN+PFQu9/cNj+uFtXJ8C5iCYCIVM2EjT6h6rdfMgQa8tkRDV/XYfuRpaEmtg==",
+      "path": "elastic.ingest.elasticsearch.commonschema/8.12.3",
+      "hashPath": "elastic.ingest.elasticsearch.commonschema.8.12.3.nupkg.sha512"
+    },
+    "Elastic.Ingest.Transport/0.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-b/c4SLgyzdasoLsnh8UNpqWG+BDdAqtSAKsxk5bNCpcX5WdiNJv+co/rg78EpK4Vd8AltnCb84gqzeFsg8ikFg==",
+      "path": "elastic.ingest.transport/0.7.5",
+      "hashPath": "elastic.ingest.transport.0.7.5.nupkg.sha512"
+    },
+    "Elastic.Serilog.Sinks/8.12.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wB99hPhKSLUceHMD0jz1/W/CIE1O3ijJ7ZOyp1K/p8J7zT7AeXvyrBBN93SRGAHJvhSEJM6iIibL0xnrft01Mg==",
+      "path": "elastic.serilog.sinks/8.12.3",
+      "hashPath": "elastic.serilog.sinks.8.12.3.nupkg.sha512"
+    },
+    "Elastic.Transport/0.5.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4WGaVuBDvdLYgrXNchxXS0dLh92Vb5bH7dgVl0w6cHudXFKh67JZFY2se2LZ3SpUPsQWuv2UKQQRbJB/qbRJBQ==",
+      "path": "elastic.transport/0.5.6",
+      "hashPath": "elastic.transport.0.5.6.nupkg.sha512"
     },
     "Elasticsearch.Net/7.17.5": {
       "type": "package",
@@ -2087,6 +2473,13 @@
       "sha512": "sha512-OqBmReOlo1VEY0ssIXrKOdyz+sPDmm0cjlb8pVg7RY4Xb6soUJ/kzVmwgMCFMrYnye/omqgefz3VPUWmsI5DNA==",
       "path": "jsonnet.contractresolvers/2.0.0",
       "hashPath": "jsonnet.contractresolvers.2.0.0.nupkg.sha512"
+    },
+    "LightHTTP/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vM/nc0ISCVuUTaGFJWwnHRqnQEr5Ixbem0z7uFxoux0L8+vLYaxxHn/45X01DIHerFyiMetLf6Dmma39hVG9Ig==",
+      "path": "lighthttp/1.0.2",
+      "hashPath": "lighthttp.1.0.2.nupkg.sha512"
     },
     "MediatR/12.2.0": {
       "type": "package",
@@ -2298,6 +2691,13 @@
       "path": "microsoft.extensions.hosting.windowsservices/9.0.4",
       "hashPath": "microsoft.extensions.hosting.windowsservices.9.0.4.nupkg.sha512"
     },
+    "Microsoft.Extensions.Http/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kDYeKJUzh0qeg/AI+nSr3ffthmXYQTEb0nS9qRC7YhSbbuN4M4NPbaB77AJwtkTnCV9XZ7qYj3dkZaNcyl73EA==",
+      "path": "microsoft.extensions.http/8.0.1",
+      "hashPath": "microsoft.extensions.http.8.0.1.nupkg.sha512"
+    },
     "Microsoft.Extensions.Logging/9.0.4": {
       "type": "package",
       "serviceable": true,
@@ -2430,6 +2830,13 @@
       "sha512": "sha512-AYSiCHp1PLzWKVf7hEL3MJ0q9kzOWMNIaTVysXk4XKrDBzK5PF2wpd4LsAl+EIQ2Hbvu+vw4oFaexcXzCuY1lQ==",
       "path": "nodatime/3.1.11",
       "hashPath": "nodatime.3.1.11.nupkg.sha512"
+    },
+    "PDFium.WindowsV2/1.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8LPx5r745D+hf55hGJlog8hbMXSFCvaDQ7ubUkiAMX+Ib3LpI0U0k9BRkZp+Jy67ZqpMBlLxxXc2/8d2wbkQ0A==",
+      "path": "pdfium.windowsv2/1.1.4",
+      "hashPath": "pdfium.windowsv2.1.1.4.nupkg.sha512"
     },
     "PDFiumSharpV2/1.1.4": {
       "type": "package",
@@ -2634,6 +3041,13 @@
       "path": "serilog.sinks.console/6.0.0",
       "hashPath": "serilog.sinks.console.6.0.0.nupkg.sha512"
     },
+    "Serilog.Sinks.Debug/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4BzXcdrgRX7wde9PmHuYd9U6YqycCC28hhpKonK7hx0wb19eiuRj16fPcPSVp0o/Y1ipJuNLYQ00R3q2Zs8FDA==",
+      "path": "serilog.sinks.debug/3.0.0",
+      "hashPath": "serilog.sinks.debug.3.0.0.nupkg.sha512"
+    },
     "Serilog.Sinks.Elasticsearch/10.0.0": {
       "type": "package",
       "serviceable": true,
@@ -2662,6 +3076,27 @@
       "path": "serilog.sinks.rollingfile/3.3.0",
       "hashPath": "serilog.sinks.rollingfile.3.3.0.nupkg.sha512"
     },
+    "SkiaSharp/3.116.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DNDwbRjP+aMo27dV2h/uHCVTcWubWWxHnPLiePNyl24f4Pv43mQ8AQQeseOrKR+J3AOCEs6t0sUjo0aa3j3RWQ==",
+      "path": "skiasharp/3.116.1",
+      "hashPath": "skiasharp.3.116.1.nupkg.sha512"
+    },
+    "SkiaSharp.NativeAssets.macOS/3.116.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3KPvpKysDmEMt0NnAZPX5U6KFk0LmG/72/IjAIJemIksIZ0Tjs9pGpr3L+zboVCv1MLVoJLKl3nJDXUG6Jda6A==",
+      "path": "skiasharp.nativeassets.macos/3.116.1",
+      "hashPath": "skiasharp.nativeassets.macos.3.116.1.nupkg.sha512"
+    },
+    "SkiaSharp.NativeAssets.Win32/3.116.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dRQ75MCI8oz6zAs2Y1w6pq6ARs4MhdNG+gf3doOxOxdnueDXffQLGQIxON54GDoxc0WjKOoHMKBR4DhaduwwQw==",
+      "path": "skiasharp.nativeassets.win32/3.116.1",
+      "hashPath": "skiasharp.nativeassets.win32.3.116.1.nupkg.sha512"
+    },
     "SkyInfo.Core.Dominio/4.3.2": {
       "type": "package",
       "serviceable": true,
@@ -2682,6 +3117,13 @@
       "sha512": "sha512-x1x8besMJ6MjgqEKidvoW28brMrmQtMCFvpbGlTx8LKGfADTOgEEAAtUjBVZpDR8nB2qs4EmbQCHryLoGDmK1w==",
       "path": "skyinfo.core.dominio.token/2.3.1",
       "hashPath": "skyinfo.core.dominio.token.2.3.1.nupkg.sha512"
+    },
+    "SkyInfo.Crva.Detran.Digitaliza.Compartilhado/0.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-F6w6x7BPQVzjFSts06ANmDf93vDysWZ5vVIk+l2Kfc6LxTUu2cuTzsIonjC+AeENX3WSWc1cSvYVsZLunNukRQ==",
+      "path": "skyinfo.crva.detran.digitaliza.compartilhado/0.0.2",
+      "hashPath": "skyinfo.crva.detran.digitaliza.compartilhado.0.0.2.nupkg.sha512"
     },
     "SkyInfo.Infra.Armazenamento.Abstracoes/2.0.1": {
       "type": "package",
@@ -2781,6 +3223,13 @@
       "path": "system.componentmodel.annotations/4.4.1",
       "hashPath": "system.componentmodel.annotations.4.4.1.nupkg.sha512"
     },
+    "System.Configuration.ConfigurationManager/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gPYFPDyohW2gXNhdQRSjtmeS6FymL2crg4Sral1wtvEJ7DUqFCDWDVbbLobASbzxfic8U1hQEdC7hmg9LHncMw==",
+      "path": "system.configuration.configurationmanager/8.0.1",
+      "hashPath": "system.configuration.configurationmanager.8.0.1.nupkg.sha512"
+    },
     "System.Diagnostics.Debug/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -2865,6 +3314,13 @@
       "path": "system.reflection.extensions/4.3.0",
       "hashPath": "system.reflection.extensions.4.3.0.nupkg.sha512"
     },
+    "System.Reflection.Metadata/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5NecZgXktdGg34rh1OenY1rFNDCI8xSjFr+Z4OU4cU06AQHUdRnIIEeWENu3Wl4YowbzkymAIMvi3WyK9U53pQ==",
+      "path": "system.reflection.metadata/5.0.0",
+      "hashPath": "system.reflection.metadata.5.0.0.nupkg.sha512"
+    },
     "System.Reflection.Primitives/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -2892,6 +3348,13 @@
       "sha512": "sha512-JufQi0vPQ0xGnAczR13AUFglDyVYt4Kqnz1AZaiKZ5+GICq0/1MH/mO/eAJHt/mHW1zjKBJd7kV26SrxddAhiw==",
       "path": "system.runtime/4.3.0",
       "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.Caching/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tdl7Q47P09UpRu0C/OQsGJU6GacBzzk4vfp5My9rodD+BchrxmajORnTthH8RxPUTPrIoVDJmLyvJcGxB267nQ==",
+      "path": "system.runtime.caching/8.0.1",
+      "hashPath": "system.runtime.caching.8.0.1.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/4.7.1": {
       "type": "package",
@@ -2927,6 +3390,13 @@
       "sha512": "sha512-cbz4YJMqRDR7oLeMRbdYv7mYzc++17lNhScCX0goO2XpGWdvAt60CGN+FHdePUEHCe/Jy9jUlvNAiNdM+7jsOw==",
       "path": "system.runtime.interopservices.runtimeinformation/4.3.0",
       "hashPath": "system.runtime.interopservices.runtimeinformation.4.3.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.ProtectedData/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+TUFINV2q2ifyXauQXRwy4CiBhqvDEDZeVJU7qfxya4aRYOKzVBpN+4acx25VcPB9ywUN6C0n8drWl110PhZEg==",
+      "path": "system.security.cryptography.protecteddata/8.0.0",
+      "hashPath": "system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
     },
     "System.Security.Permissions/8.0.0": {
       "type": "package",
@@ -3005,7 +3475,51 @@
       "path": "system.windows.extensions/8.0.0",
       "hashPath": "system.windows.extensions.8.0.0.nupkg.sha512"
     },
-    "SkyInfo.Crva.Detran.Digitaliza.Compartilhado/1.0.0": {
+    "ZXing.Net/0.16.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9avtcn21T7Ndcl8PQ1LHR7/wEoCruX1QKKHvO6zBPTsDW9IdvR5vKOmd618AY+DtDWZz8NaFDTkpbZdgaF4l4w==",
+      "path": "zxing.net/0.16.10",
+      "hashPath": "zxing.net.0.16.10.nupkg.sha512"
+    },
+    "ZXing.Net.Bindings.SkiaSharp/0.16.21": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OoBAiIzfRnTrkkiM4dcORtereuKE8TzcdzVf8Xvh8ZO71aYyuDebR+fjveFY/KfAKS2rU8hFff+UclegThwb+w==",
+      "path": "zxing.net.bindings.skiasharp/0.16.21",
+      "hashPath": "zxing.net.bindings.skiasharp.0.16.21.nupkg.sha512"
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.Genérica/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.GerenciadorDeAplicações/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
