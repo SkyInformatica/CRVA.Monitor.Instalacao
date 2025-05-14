@@ -239,7 +239,7 @@ end;
 
 procedure AtualizarAppSettings();
 var
-  JSONString, CaminhoDoAppSettings: String;
+  JSONString, CaminhoDoAppSettings: AnsiString;
 begin
   CaminhoDoAppSettings := ExpandConstant('{app}\appsettings.json');
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
