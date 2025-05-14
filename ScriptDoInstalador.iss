@@ -251,9 +251,9 @@ begin
   end;
   
   JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
-  JSONString := SubstituirString(JSONString, '"EMAIL"', '"' + Email + '"');
-  JSONString := SubstituirString(JSONString, '"SENHA"', '"' + Senha + '"');
-  JSONString := SubstituirString(JSONString, '"ORGANIZACAO"', '"' + OrganizacaoId + '"');
+  JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
+  JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
+  JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
   JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
   JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
 
