@@ -270,9 +270,9 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 var
-  ResultCode: Integer;
+  ResultCode, ErrorCode: Integer;
   Dominio: string;
-  AppSettingsPath, Diretorio, EmailParam, SenhaParam, OrganizacaoParam, UsuarioWin, SenhaWin, CmdLine: string;
+  CmdLine: string;
 begin
   if CurStep = ssInstall then
   begin
@@ -283,26 +283,13 @@ begin
     Sleep(1000);
   end;
 
-  if CurStep = ssPostInstall then
-  begin
-    AppSettingsPath := ExpandConstant('{app}\appsettings.json');
-    Diretorio := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\\', '/');
-    EmailParam := Email;
-    SenhaParam := Senha;
-    OrganizacaoParam := OrganizacaoId;
-    UsuarioWin := NomeUsuarioWindows;
-    SenhaWin := SenhaWindows;
-    CmdLine := Format('"%s" "%s" "%s" "%s" "%s" "%s" "%s"',
-      [ExpandConstant('{app}\atualizar-appsettings.bat'), AppSettingsPath, Diretorio, EmailParam, SenhaParam, OrganizacaoParam, UsuarioWin, SenhaWin]);
-    Exec(ExpandConstant('{cmd}'), '/C ' + CmdLine, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  end;
-  
   if CurStep = ssDone then
   begin
     NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
     SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
     ObterDominioDoUsuario(Dominio);
-    
+    CmdLine := Format('"%s" "%s" "%s" "%s" "%s" "%s" "%s"', [DiretorioDeDocumentos, Email, Senha, OrganizacaoId, NomeUsuarioWindows, SenhaWindows]);
+    ShellExec('', ExpandConstant('{app}\atualizar-appsettings.bat'), CmdLine, ExpandConstant('{app}'), SW_HIDE, ewWaitUntilTerminated, ErrorCode);
     CriarServicoDoWindows(NomeUsuarioWindows, SenhaWindows, Dominio);
     ExibirMensagemComResultCode('Serviço criado', ResultCode);
     Sleep(1500);
