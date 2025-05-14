@@ -34,10 +34,6 @@ MergeDuplicateFiles=no
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
-; --> Arquivos compartilhados entre ambas arquiteturas
-[Files]
-Source: "atualizar-appsettings.bat"; DestDir: "{app}"; Flags: replacesameversion deleteafterinstall;
-
 ; --> Arquivos x64
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
@@ -241,6 +237,29 @@ begin
   end;
 end;
 
+procedure AtualizarAppSettings();
+var
+  JSONString, CaminhoDoAppSettings: AnsiString;
+begin
+  CaminhoDoAppSettings := ExpandConstant('{app}\appsettings.json');
+  DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
+  JSONString := ObterTextoDoArquivo(CaminhoDoAppSettings);
+  if JSONString = '' then
+  begin
+    MsgBox('Falha ao ler o appsettings.json ou o arquivo está vazio.', mbError, MB_OK);
+    Exit;
+  end;
+  
+  JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
+  JSONString := SubstituirString(JSONString, '"EMAIL"', '"' + Email + '"');
+  JSONString := SubstituirString(JSONString, '"SENHA"', '"' + Senha + '"');
+  JSONString := SubstituirString(JSONString, '"ORGANIZACAO"', '"' + OrganizacaoId + '"');
+  JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
+  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
+
+  SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
+end;
+
 procedure ExibirMensagemComResultCode(Mensagem: String; ResultCode: Integer);
 var
   MensagemFormatada: String;
@@ -272,7 +291,6 @@ procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
   Dominio: string;
-  AppSettingsPath, Diretorio, EmailParam, SenhaParam, OrganizacaoParam, UsuarioWin, SenhaWin, CmdLine: string;
 begin
   if CurStep = ssInstall then
   begin
@@ -285,16 +303,7 @@ begin
 
   if CurStep = ssPostInstall then
   begin
-    AppSettingsPath := ExpandConstant('{app}\appsettings.json');
-    Diretorio := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\\', '/');
-    EmailParam := Email;
-    SenhaParam := Senha;
-    OrganizacaoParam := OrganizacaoId;
-    UsuarioWin := NomeUsuarioWindows;
-    SenhaWin := SenhaWindows;
-    CmdLine := Format('"%s" "%s" "%s" "%s" "%s" "%s" "%s"',
-      [ExpandConstant('{app}\atualizar-appsettings.bat'), AppSettingsPath, Diretorio, EmailParam, SenhaParam, OrganizacaoParam, UsuarioWin, SenhaWin]);
-    Exec(ExpandConstant('{cmd}'), '/C ' + CmdLine, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    AtualizarAppSettings();
   end;
   
   if CurStep = ssDone then
