@@ -4,8 +4,8 @@ on:
     branches:
       - "main"
     paths: 
-      - "gerenciador"
-      - "monitor"
+      - "gerenciador/**"
+      - "monitor/**"
 
 permissions:
   contents: write
