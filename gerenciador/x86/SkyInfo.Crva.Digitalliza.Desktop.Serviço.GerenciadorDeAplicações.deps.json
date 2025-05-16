@@ -2154,6 +2154,7 @@
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Monitoração": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0",
           "SkyInfo.Infra.Geral": "2.2.0"
@@ -2218,6 +2219,31 @@
         },
         "runtime": {
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Monitoração/1.0.0": {
+        "dependencies": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Notificação": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Monitoração.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Notificação/1.0.0": {
+        "dependencies": {
+          "SkyInfo.Crva.Detran.Digitaliza.Compartilhado": "0.0.2",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação": "1.0.0"
+        },
+        "runtime": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Notificação.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -3320,6 +3346,16 @@
       "sha512": ""
     },
     "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Monitoração/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Notificação/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
