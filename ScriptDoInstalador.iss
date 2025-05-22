@@ -66,17 +66,18 @@ Type: filesandordirs; Name: "{app}\.temp"
 
 [Run]
 Filename: "{#CaminhoDoAssistenteDeInstalacao}"; Parameters: "{code:ObterParametrosDeRegistroDoServico}"; Flags: hidewizard runhidden 32bit runascurrentuser logoutput;
+Filename: "{#CaminhoDoAssistenteDeInstalacao}"; Parameters: "iniciar {#NomeDaAplicacao}"; Flags: hidewizard runhidden 32bit runascurrentuser logoutput;
 
 [UninstallRun]
-Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "parar {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
-Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Parameters: "parar {#NomeDoMonitorNoSistema}"; Flags: runhidden 32bit runascurrentuser logoutput;
+Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "remover {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
+Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Parameters: "remover {#NomeDoMonitorNoSistema}"; Flags: runhidden 32bit runascurrentuser logoutput;
 
 [Code]
 const Debug = False;
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
-const ComandoDePararGerenciador = 'parar {#NomeDaAplicacao}';
-const ComandoDePararMonitor = 'parar {#NomeDoMonitorNoSistema}';
+const ComandoDePararGerenciador = 'remover {#NomeDaAplicacao}';
+const ComandoDePararMonitor = 'remover {#NomeDoMonitorNoSistema}';
 
 var
   PaginaInicial: TOutputMsgWizardPage;
@@ -116,7 +117,7 @@ begin
   end
   else
   begin
-    Result := Format(ComandoDeRegistroComCredenciais, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}', DominioValido + '\' + NomeUsuarioWindows, SenhaWindows]);
+    Result := Utf8Encode(Format(ComandoDeRegistroComCredenciais, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}', DominioValido + '\' + NomeUsuarioWindows, SenhaWindows]));
   end;
 end;
 
