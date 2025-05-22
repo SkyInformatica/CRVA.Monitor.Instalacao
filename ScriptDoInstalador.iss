@@ -4,7 +4,9 @@
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
 #define CaminhoDaFonteDaAplicacao "gerenciador"
+#define CaminhoDoAssistenteDeInstalacao "{tmp}\SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
+#define Versao "20250522.dev"
 
 #include "Dependências\CodeDependencies.iss"
 #include "Dependências\UtilitáriosDeAdministraçãoWindows.iss"
@@ -34,6 +36,9 @@ MergeDuplicateFiles=no
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
+[Files]
+Source: "src\*"; DestDir: "{tmp}"; Flags: replacesameversion;
+
 ; --> Arquivos x64
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
@@ -43,22 +48,35 @@ Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\*"; DestDir: "{app}\Arma
 
 ; --> Arquivos x86
 [Files]
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits; Permissions: everyone-modify;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits; Permissions: everyone-modify;
+Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: InstalacaoEm32Bits;
 
 [UninstallDelete]
 Type: files; Name: "{app}\Chave.txt";
 Type: filesandordirs; Name: "{app}\Monitor";
+Type: filesandordirs; Name: "{app}\.temp"
 
 [InstallDelete]
 Type: files; Name: "{app}\Chave.txt"; 
 Type: files; Name: "{app}\appsettings.json";
 Type: filesandordirs; Name: "{app}\Monitor";
+Type: filesandordirs; Name: "{app}\.temp"
+
+[Run]
+Filename: "{#CaminhoDoAssistenteDeInstalacao}"; Parameters: "{code:ObterParametrosDeRegistroDoServico}"; Flags: hidewizard runhidden 32bit runascurrentuser logoutput;
+
+[UninstallRun]
+Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "parar {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
+Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Parameters: "parar {#NomeDoMonitorNoSistema}"; Flags: runhidden 32bit runascurrentuser logoutput;
 
 [Code]
 const Debug = False;
+const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
+const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
+const ComandoDePararGerenciador = 'parar {#NomeDaAplicacao}';
+const ComandoDePararMonitor = 'parar {#NomeDoMonitorNoSistema}';
 
 var
   PaginaInicial: TOutputMsgWizardPage;
@@ -88,6 +106,18 @@ end;
 function InstalacaoEm32Bits: Boolean;
 begin
   Result := Is64BitInstallMode() = False;
+end;
+
+function ObterParametrosDeRegistroDoServico(Param: String): String;
+begin
+  if not UtilizarCredenciaisDoWindows then
+  begin
+    Result := Utf8Encode(Format(ComandoDeRegistroNormal, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}']));
+  end
+  else
+  begin
+    Result := Format(ComandoDeRegistroComCredenciais, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}', DominioValido + '\' + NomeUsuarioWindows, SenhaWindows]);
+  end;
 end;
 
 procedure InitializeWizard();
@@ -161,6 +191,21 @@ begin
   Result := True;
 end;
 
+procedure ObterDominioDoUsuario(out Resultado: String);
+var 
+  ResultCode: Integer;
+  ListaDeStrings: TArrayOfString;
+begin
+  if ExecWithResult('whoami', '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, Resultado) then
+  begin
+    if ResultCode = 0 then
+    begin
+      ListaDeStrings := DividirString(Resultado, '\');
+      Resultado := ListaDeStrings[0];
+    end;
+  end;
+end;
+
 function NextButtonClick(CurPageID: Integer): Boolean;
 var
   JsonResponse: string;
@@ -219,21 +264,7 @@ begin
     NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
     SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
     DominioValido := '';
-  end;
-end;
-
-procedure ObterDominioDoUsuario(out Resultado: String);
-var 
-  ResultCode: Integer;
-  ListaDeStrings: TArrayOfString;
-begin
-  if ExecWithResult('whoami', '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, Resultado) then
-  begin
-    if ResultCode = 0 then
-    begin
-      ListaDeStrings := DividirString(Resultado, '\');
-      Resultado := ListaDeStrings[0];
-    end;
+    ObterDominioDoUsuario(DominioValido);
   end;
 end;
 
@@ -254,7 +285,7 @@ begin
   JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
   JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
   JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
-  JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
+  JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '\\' + NomeUsuarioWindows + '"');
   JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
 
   SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
@@ -271,32 +302,19 @@ begin
   end;
 end;
 
-procedure CriarServicoDoWindows(NomeUsuario, SenhaUsuario, DominioUsuario: string);
-var
-  ResultCode: Integer;
-begin
-  UtilizarCredenciaisDoWindows := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0];
-  if not UtilizarCredenciaisDoWindows then
-  begin
-    Exec('sc', 'create {#NomeDaAplicacao} displayName="Sky Digitaliza - Desktop" binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj="LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  end
-  else
-  begin
-    Exec('sc', 'create {#NomeDaAplicacao} displayName="Sky Digitaliza - Desktop" binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') +
-      '" start= auto obj= "' + DominioUsuario + '\' + NomeUsuario + '" password= "' + SenhaUsuario + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  end;
-end;
-
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
-  Dominio: string;
 begin
   if CurStep = ssInstall then
   begin
-    if Exec('sc', 'stop {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    if Exec('{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço do Windows foi parado', ResultCode);
+      ExibirMensagemComResultCode('Serviço do Gerenciador foi parado', ResultCode);
+    end;
+    if Exec('{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararMonitor, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      ExibirMensagemComResultCode('Serviço do Monitor foi parado', ResultCode);
     end;
     Sleep(1000);
   end;
@@ -304,56 +322,5 @@ begin
   if CurStep = ssPostInstall then
   begin
     AtualizarAppSettings();
-  end;
-  
-  if CurStep = ssDone then
-  begin
-    NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
-    SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
-    ObterDominioDoUsuario(Dominio);
-    
-    CriarServicoDoWindows(NomeUsuarioWindows, SenhaWindows, Dominio);
-    ExibirMensagemComResultCode('Serviço criado', ResultCode);
-    Sleep(1500);
-    if Exec('sc', 'start {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço iniciado', ResultCode);
-    end
-    else
-    begin
-      ExibirMensagemComResultCode('Erro ao tentar iniciar o serviço no Windows', ResultCode);
-    end;
-  end;
-end;
-
-procedure CurUninstallStepChanged(CurStep: TUninstallStep);
-var
-  ResultCode: Integer;
-begin
-  if CurStep = usUninstall then
-  begin
-    if Exec('sc', 'stop {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço do Gerenciador no Windows foi Parado', ResultCode);
-      Sleep(1000);
-    end;
-    
-    if Exec('sc', 'delete {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço do Gerenciador no Windows foi deletado', ResultCode);
-    end;
-	
-	if Exec('sc', 'stop {#NomeDoMonitorNoSistema}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço do Monitor no Windows foi Parado', ResultCode);
-      Sleep(1000);
-    end;
-    
-    if Exec('sc', 'delete {#NomeDoMonitorNoSistema}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço do Monitor no Windows foi deletado', ResultCode);
-    end;
-    
-    Sleep(1000);
   end;
 end;
