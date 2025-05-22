@@ -76,8 +76,8 @@ Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Par
 const Debug = False;
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
-const ComandoDePararGerenciador = 'remover {#NomeDaAplicacao}';
-const ComandoDePararMonitor = 'remover {#NomeDoMonitorNoSistema}';
+const ComandoDePararGerenciador = 'remover "{#NomeDaAplicacao}"';
+const ComandoDePararMonitor = 'remover "{#NomeDoMonitorNoSistema}"';
 
 var
   PaginaInicial: TOutputMsgWizardPage;
@@ -286,8 +286,20 @@ begin
   JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
   JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
   JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
-  JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '\\' + NomeUsuarioWindows + '"');
-  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
+  
+  if UtilizarCredenciaisDoWindows then
+  begin
+    if not SameStr(DominioValido, '') then
+    begin
+      JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '/' + NomeUsuarioWindows + '"');
+    end
+    else
+    begin
+      JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
+    end;
+    
+    JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
+  end;
 
   SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
 end;
