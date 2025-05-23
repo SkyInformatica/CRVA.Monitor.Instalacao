@@ -4,7 +4,7 @@
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
 #define CaminhoDaFonteDaAplicacao "gerenciador"
-#define CaminhoDoAssistenteDeInstalacao "{tmp}\SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
+#define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
 #define Versao "20250522.dev"
 
@@ -64,13 +64,9 @@ Type: files; Name: "{app}\appsettings.json";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\.temp"
 
-[Run]
-Filename: "{#CaminhoDoAssistenteDeInstalacao}"; Parameters: "{code:ObterParametrosDeRegistroDoServico}"; Flags: hidewizard runhidden 32bit runascurrentuser logoutput;
-Filename: "{#CaminhoDoAssistenteDeInstalacao}"; Parameters: "iniciar {#NomeDaAplicacao}"; Flags: hidewizard runhidden 32bit runascurrentuser logoutput;
-
 [UninstallRun]
-Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "remover {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
-Filename: "{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Parameters: "remover {#NomeDoMonitorNoSistema}"; Flags: runhidden 32bit runascurrentuser logoutput;
+Filename: "{tmp}\{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "remover {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
+Filename: "{tmp}\{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Parameters: "remover {#NomeDoMonitorNoSistema}"; Flags: runhidden 32bit runascurrentuser logoutput;
 
 [Code]
 const Debug = False;
@@ -109,7 +105,7 @@ begin
   Result := Is64BitInstallMode() = False;
 end;
 
-function ObterParametrosDeRegistroDoServico(Param: String): String;
+function ObterParametrosDeRegistroDoServico(): String;
 begin
   if not UtilizarCredenciaisDoWindows then
   begin
@@ -287,20 +283,18 @@ begin
   JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
   JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
   
-  if UtilizarCredenciaisDoWindows then
+  if not SameStr(DominioValido, '') then
   begin
-    if not SameStr(DominioValido, '') then
-    begin
-      JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '/' + NomeUsuarioWindows + '"');
-    end
-    else
-    begin
-      JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
-    end;
-    
-    JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
+    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '/' + NomeUsuarioWindows + '"');
+  end
+  else
+  begin
+    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
   end;
+  
+  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
 
+  Log(JSONString);
   SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
 end;
 
@@ -308,11 +302,8 @@ procedure ExibirMensagemComResultCode(Mensagem: String; ResultCode: Integer);
 var
   MensagemFormatada: String;
 begin
-  if Debug = True then
-  begin
-    MensagemFormatada := Mensagem+'. [CODIGO: '+IntToStr(ResultCode)+']';
-    MsgBox(MensagemFormatada, mbInformation, MB_OK);
-  end;
+  MensagemFormatada := Mensagem+'. [CODIGO: '+IntToStr(ResultCode)+']';
+  Log(MensagemFormatada);
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -321,19 +312,23 @@ var
 begin
   if CurStep = ssInstall then
   begin
-    if Exec('{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
       ExibirMensagemComResultCode('Serviço do Gerenciador foi parado', ResultCode);
     end;
-    if Exec('{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararMonitor, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    
+    if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararMonitor, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
       ExibirMensagemComResultCode('Serviço do Monitor foi parado', ResultCode);
     end;
+    
     Sleep(1000);
   end;
 
   if CurStep = ssPostInstall then
   begin
     AtualizarAppSettings();
+    ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
+    ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', 'iniciar "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
   end;
 end;
