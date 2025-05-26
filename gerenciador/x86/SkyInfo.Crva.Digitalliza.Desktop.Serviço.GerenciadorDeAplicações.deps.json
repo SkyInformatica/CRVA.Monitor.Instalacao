@@ -2226,6 +2226,7 @@
       },
       "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Monitoração/1.0.0": {
         "dependencies": {
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ControleDeVersionamento": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Notificação": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0"
