@@ -57,12 +57,14 @@ Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Arma
 Type: files; Name: "{app}\Chave.txt";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.old";
 
 [InstallDelete]
 Type: files; Name: "{app}\Chave.txt"; 
 Type: files; Name: "{app}\appsettings.json";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.old";
 
 [UninstallRun]
 Filename: "{tmp}\{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "remover {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
