@@ -1,12 +1,11 @@
 #define NomeDaAplicacao "SkyDigitalliza.Desktop"
-#define NomeDoMonitorNoSistema "SkyInfo.Crva.Digitalliza.Desktop.Serviço.Monitor"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
 #define CaminhoDaFonteDaAplicacao "gerenciador"
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
-#define Versao "20250522.dev"
+#define Versao "20250527.dev"
 
 #include "Dependências\CodeDependencies.iss"
 #include "Dependências\UtilitáriosDeAdministraçãoWindows.iss"
@@ -66,16 +65,11 @@ Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\.temp"
 Type: filesandordirs; Name: "{app}\.old";
 
-[UninstallRun]
-Filename: "{tmp}\{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerGerenciador"; Parameters: "remover {#NomeDaAplicacao}"; Flags: runhidden 32bit runascurrentuser logoutput;
-Filename: "{tmp}\{#CaminhoDoAssistenteDeInstalacao}"; RunOnceId: "removerMonitor"; Parameters: "remover {#NomeDoMonitorNoSistema}"; Flags: runhidden 32bit runascurrentuser logoutput;
-
 [Code]
 const Debug = False;
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
 const ComandoDePararGerenciador = 'remover "{#NomeDaAplicacao}"';
-const ComandoDePararMonitor = 'remover "{#NomeDoMonitorNoSistema}"';
 
 var
   PaginaInicial: TOutputMsgWizardPage;
@@ -308,6 +302,19 @@ begin
   Log(MensagemFormatada);
 end;
 
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  ResultCode: Integer;
+begin
+  if CurUninstallStep = usUninstall then
+  begin
+    if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      ExibirMensagemComResultCode('Serviço do Gerenciador foi parado', ResultCode);
+    end;
+  end;
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
@@ -317,11 +324,6 @@ begin
     if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
       ExibirMensagemComResultCode('Serviço do Gerenciador foi parado', ResultCode);
-    end;
-    
-    if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararMonitor, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço do Monitor foi parado', ResultCode);
     end;
     
     Sleep(1000);
