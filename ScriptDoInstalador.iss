@@ -2,7 +2,9 @@
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
+#define NomeDoExecutavelDoGerenciadorDeMonitoracao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeMonitoração.exe"
 #define CaminhoDaFonteDaAplicacao "gerenciador"
+#define CaminhoDoFonteDoGerenciadorDeMonitoracao "gerenciador-de-monitoracao"
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
 #define Versao "20250527.dev"
@@ -32,6 +34,9 @@ WizardStyle=modern
 CloseApplications=force
 MergeDuplicateFiles=no
 
+[Registry]
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
+
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
@@ -44,6 +49,7 @@ Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestD
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: Is64BitInstallMode;
+Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x64\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
 
 ; --> Arquivos x86
 [Files]
@@ -51,6 +57,7 @@ Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestD
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x86\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
 
 [UninstallDelete]
 Type: files; Name: "{app}\Chave.txt";
@@ -70,6 +77,49 @@ const Debug = False;
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
 const ComandoDePararGerenciador = 'remover "{#NomeDaAplicacao}"';
+
+function IniciarGerenciadorDeMonitoracao(): Boolean;
+var
+  CaminhoDoGerenciador: String;
+  ResultCode: Integer;
+begin
+  Result := False;
+  CaminhoDoGerenciador := ExpandConstant('{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}');
+  
+  if FileExists(CaminhoDoGerenciador) then
+  begin
+    if ExecAsOriginalUser(CaminhoDoGerenciador, '', '', SW_HIDE, ewNoWait, ResultCode) then
+    begin
+      Log('Gerenciador de Monitoração iniciado com sucesso');
+      Result := True;
+    end
+    else
+    begin
+      Log('Falha ao iniciar o Gerenciador de Monitoração. Código: ' + IntToStr(ResultCode));
+    end;
+  end
+  else
+  begin
+    Log('Executável do Gerenciador de Monitoração não encontrado: ' + CaminhoDoGerenciador);
+  end;
+end;
+
+function PararGerenciadorDeMonitoracao(): Boolean;
+var
+  ResultCode: Integer;
+begin
+  Result := False;
+  if Exec('taskkill', '/F /IM "{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Log('Gerenciador de Monitoração parado com sucesso');
+    Result := True;
+  end
+  else
+  begin
+    Log('Falha ao parar o Gerenciador de Monitoração ou processo não estava em execução. Código: ' + IntToStr(ResultCode));
+    Result := True; // Considera sucesso mesmo se o processo não estava rodando
+  end;
+end;
 
 var
   PaginaInicial: TOutputMsgWizardPage;
@@ -261,11 +311,11 @@ begin
   end;
 end;
 
-procedure AtualizarAppSettings();
+procedure AtualizarAppSettings(diretorioDoAppSettings: String);
 var
   JSONString, CaminhoDoAppSettings: AnsiString;
 begin
-  CaminhoDoAppSettings := ExpandConstant('{app}\appsettings.json');
+  CaminhoDoAppSettings := diretorioDoAppSettings + '\appsettings.json';
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
   JSONString := ObterTextoDoArquivo(CaminhoDoAppSettings);
   if JSONString = '' then
@@ -308,9 +358,13 @@ var
 begin
   if CurUninstallStep = usUninstall then
   begin
-    if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    // Para o gerenciador de monitoração
+    PararGerenciadorDeMonitoracao();
+    
+    // Para o serviço principal
+    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço do Gerenciador foi parado', ResultCode);
+      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
     end;
   end;
 end;
@@ -321,9 +375,13 @@ var
 begin
   if CurStep = ssInstall then
   begin
-    if Exec(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ComandoDePararGerenciador, '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    // Para o gerenciador de monitoração se estiver rodando
+    PararGerenciadorDeMonitoracao();
+    
+    // Para o serviço principal
+    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço do Gerenciador foi parado', ResultCode);
+      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
     end;
     
     Sleep(1000);
@@ -331,8 +389,14 @@ begin
 
   if CurStep = ssPostInstall then
   begin
-    AtualizarAppSettings();
+    AtualizarAppSettings(ExpandConstant('{app}'));
+    AtualizarAppSettings(ExpandConstant('{app}\GerenciadorDeMonitoracao'));
+    
+    // Registra e inicia o serviço principal
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', 'iniciar "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
+    
+    // Inicia o gerenciador de monitoração como usuário normal
+    IniciarGerenciadorDeMonitoracao();
   end;
 end;
