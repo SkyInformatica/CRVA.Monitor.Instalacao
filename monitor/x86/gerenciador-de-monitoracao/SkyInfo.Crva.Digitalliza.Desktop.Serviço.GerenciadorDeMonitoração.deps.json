@@ -9,12 +9,14 @@
     ".NETCoreApp,Version=v8.0/win-x86": {
       "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeMonitoração/1.0.0": {
         "dependencies": {
+          "AsyncAwaitBestPractices": "9.0.0",
           "Avalonia": "11.3.0",
           "Avalonia.Desktop": "11.3.0",
           "Avalonia.Diagnostics": "11.3.0",
           "Avalonia.Fonts.Inter": "11.3.0",
           "Avalonia.Themes.Fluent": "11.3.0",
           "AvaloniaPdfViewer": "0.0.2-pre",
+          "HotAvalonia": "3.0.0",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x86": "8.0.16"
         },
         "runtime": {
@@ -52,10 +54,6 @@
             "fileVersion": "8.0.1625.21506"
           },
           "System.Collections.Concurrent.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.1625.21506"
-          },
-          "System.Collections.Immutable.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1625.21506"
           },
@@ -399,10 +397,6 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1625.21506"
           },
-          "System.Reflection.Metadata.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.1625.21506"
-          },
           "System.Reflection.Primitives.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1625.21506"
@@ -741,6 +735,14 @@
           }
         }
       },
+      "AsyncAwaitBestPractices/9.0.0": {
+        "runtime": {
+          "lib/net8.0/AsyncAwaitBestPractices.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.0.0"
+          }
+        }
+      },
       "Avalonia/11.3.0": {
         "dependencies": {
           "Avalonia.BuildServices": "0.0.31",
@@ -851,6 +853,12 @@
             "assemblyVersion": "11.3.0.0",
             "fileVersion": "11.3.0.0"
           }
+        }
+      },
+      "Avalonia.Markup.Xaml.Loader/11.0.0": {
+        "dependencies": {
+          "Avalonia": "11.3.0",
+          "System.Reflection.Emit": "4.3.0"
         }
       },
       "Avalonia.Native/11.3.0": {
@@ -981,6 +989,7 @@
           }
         }
       },
+      "Fody/6.9.2": {},
       "HarfBuzzSharp/7.3.0.3": {
         "dependencies": {
           "HarfBuzzSharp.NativeAssets.Win32": "7.3.0.3",
@@ -1007,6 +1016,25 @@
           }
         }
       },
+      "HotAvalonia/3.0.0": {
+        "dependencies": {
+          "Avalonia.Markup.Xaml.Loader": "11.0.0",
+          "HotAvalonia.Core": "3.0.0",
+          "HotAvalonia.Extensions": "3.0.0",
+          "HotAvalonia.Fody": "3.0.0"
+        }
+      },
+      "HotAvalonia.Core/3.0.0": {
+        "dependencies": {
+          "System.Reflection.Metadata": "9.0.3"
+        }
+      },
+      "HotAvalonia.Extensions/3.0.0": {},
+      "HotAvalonia.Fody/3.0.0": {
+        "dependencies": {
+          "Fody": "6.9.2"
+        }
+      },
       "MicroCom.Runtime/0.11.0": {
         "runtime": {
           "lib/net5.0/MicroCom.Runtime.dll": {
@@ -1015,6 +1043,8 @@
           }
         }
       },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "Microsoft.NETCore.Targets/1.1.0": {},
       "PDFtoImage/4.1.0": {
         "dependencies": {
           "SkiaSharp": "2.88.9",
@@ -1046,6 +1076,16 @@
           }
         }
       },
+      "runtime.any.System.IO/4.3.0": {},
+      "runtime.any.System.Reflection/4.3.0": {},
+      "runtime.any.System.Reflection.Primitives/4.3.0": {},
+      "runtime.any.System.Runtime/4.3.0": {
+        "dependencies": {
+          "System.Private.Uri": "4.3.0"
+        }
+      },
+      "runtime.any.System.Text.Encoding/4.3.0": {},
+      "runtime.any.System.Threading.Tasks/4.3.0": {},
       "SkiaSharp/2.88.9": {
         "dependencies": {
           "SkiaSharp.NativeAssets.Win32": "2.88.9",
@@ -1086,6 +1126,17 @@
         }
       },
       "Sungaila.PDFium.BlazorWebAssembly/128.0.6569": {},
+      "System.Collections.Immutable/9.0.3": {},
+      "System.IO/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "runtime.any.System.IO": "4.3.0"
+        }
+      },
       "System.IO.Pipelines/8.0.0": {
         "runtime": {
           "lib/net8.0/System.IO.Pipelines.dll": {
@@ -1094,12 +1145,80 @@
           }
         }
       },
+      "System.Private.Uri/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0"
+        }
+      },
       "System.Reactive/5.0.0": {
         "runtime": {
           "lib/net5.0/System.Reactive.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.0.0.1"
           }
+        }
+      },
+      "System.Reflection/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.IO": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Reflection": "4.3.0"
+        }
+      },
+      "System.Reflection.Emit/4.3.0": {
+        "dependencies": {
+          "System.IO": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Emit.ILGeneration": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Reflection.Emit.ILGeneration/4.3.0": {
+        "dependencies": {
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Reflection.Metadata/9.0.3": {
+        "dependencies": {
+          "System.Collections.Immutable": "9.0.3"
+        }
+      },
+      "System.Reflection.Primitives/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Reflection.Primitives": "4.3.0"
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "runtime.any.System.Runtime": "4.3.0"
+        }
+      },
+      "System.Text.Encoding/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Text.Encoding": "4.3.0"
+        }
+      },
+      "System.Threading.Tasks/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Threading.Tasks": "4.3.0"
         }
       },
       "Tmds.DBus.Protocol/0.21.2": {
@@ -1125,6 +1244,13 @@
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
+    },
+    "AsyncAwaitBestPractices/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I6gUk7fZdu1h+BlgrZbgHUMv9OhXft5Df4ceH+NrOhNYKm0k3yoCjLoi7qpHqxgZq6grqaohEoQXdOHOtYgHiw==",
+      "path": "asyncawaitbestpractices/9.0.0",
+      "hashPath": "asyncawaitbestpractices.9.0.0.nupkg.sha512"
     },
     "Avalonia/11.3.0": {
       "type": "package",
@@ -1181,6 +1307,13 @@
       "sha512": "sha512-NUoXEEmZ4gbXn5c2Smv2QfDT23Ps2x2O1Dls5/op1AjmxZFXRkx/zz1xQVnJu6cHEA2Jx4i+SG7AvCPVs8bBBA==",
       "path": "avalonia.freedesktop/11.3.0",
       "hashPath": "avalonia.freedesktop.11.3.0.nupkg.sha512"
+    },
+    "Avalonia.Markup.Xaml.Loader/11.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SDcf5qvleyTb0R24vzZBhFJV9ONlGz0ftOBRxXiSy7R6c513Rjnae0IImuUXSIj+Bmn8AjU6x9eDFRJO78pYVA==",
+      "path": "avalonia.markup.xaml.loader/11.0.0",
+      "hashPath": "avalonia.markup.xaml.loader.11.0.0.nupkg.sha512"
     },
     "Avalonia.Native/11.3.0": {
       "type": "package",
@@ -1273,6 +1406,13 @@
       "path": "dynamicdata/7.9.5",
       "hashPath": "dynamicdata.7.9.5.nupkg.sha512"
     },
+    "Fody/6.9.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YBHobPGogb0vYhGYIxn/ndWqTjNWZveDi5jdjrcshL2vjwU3gQGyDeI7vGgye+2rAM5fGRvlLgNWLW3DpviS/w==",
+      "path": "fody/6.9.2",
+      "hashPath": "fody.6.9.2.nupkg.sha512"
+    },
     "HarfBuzzSharp/7.3.0.3": {
       "type": "package",
       "serviceable": true,
@@ -1308,12 +1448,54 @@
       "path": "harfbuzzsharp.nativeassets.win32/7.3.0.3",
       "hashPath": "harfbuzzsharp.nativeassets.win32.7.3.0.3.nupkg.sha512"
     },
+    "HotAvalonia/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-p6rp7jpkfbQyCW+I3YAAP/ABmwsw+5yD0GG5BGWZFRFpjy6pBwTRJIfbWLjbUp3sC0BJs2poJMT5aQzTMS79yQ==",
+      "path": "hotavalonia/3.0.0",
+      "hashPath": "hotavalonia.3.0.0.nupkg.sha512"
+    },
+    "HotAvalonia.Core/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mYHcr79mhOBuKJHOJA+oub8/rNR3TtiTFbVdPadmrKJv3+KZPHuZzFkSDn3KRubB0z3cw/JljKOj08K7LicRQ==",
+      "path": "hotavalonia.core/3.0.0",
+      "hashPath": "hotavalonia.core.3.0.0.nupkg.sha512"
+    },
+    "HotAvalonia.Extensions/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-19rlMjkerMeOZwt2EHdWGS+36GlpurLC38c2iP55a9cbZ1NV3OY27V0Tq68ZpqVeFMYTlXFFdu1ydbREPPcqeQ==",
+      "path": "hotavalonia.extensions/3.0.0",
+      "hashPath": "hotavalonia.extensions.3.0.0.nupkg.sha512"
+    },
+    "HotAvalonia.Fody/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5FGM1na5gEnzUV67MmvTBjZXUjPjavkbncZeyZ/q9GxGjiwvMej0+H5VwIDCcMQWGVucBgHN5u8gz+a0IPQq7Q==",
+      "path": "hotavalonia.fody/3.0.0",
+      "hashPath": "hotavalonia.fody.3.0.0.nupkg.sha512"
+    },
     "MicroCom.Runtime/0.11.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-MEnrZ3UIiH40hjzMDsxrTyi8dtqB5ziv3iBeeU4bXsL/7NLSal9F1lZKpK+tfBRnUoDSdtcW3KufE4yhATOMCA==",
       "path": "microcom.runtime/0.11.0",
       "hashPath": "microcom.runtime.0.11.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Targets/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
+      "path": "microsoft.netcore.targets/1.1.0",
+      "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
     },
     "PDFtoImage/4.1.0": {
       "type": "package",
@@ -1328,6 +1510,48 @@
       "sha512": "sha512-0tclGtjrRPfA2gbjiM7O3DeNmo6/TpDn7CMN6jgzDrbgrnysM7oEzjGEeXbtXaOxH6kEf6RiMKWobZoSgbBXhQ==",
       "path": "reactiveui/18.3.1",
       "hashPath": "reactiveui.18.3.1.nupkg.sha512"
+    },
+    "runtime.any.System.IO/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SDZ5AD1DtyRoxYtEcqQ3HDlcrorMYXZeCt7ZhG9US9I5Vva+gpIWDGMkcwa5XiKL0ceQKRZIX2x0XEjLX7PDzQ==",
+      "path": "runtime.any.system.io/4.3.0",
+      "hashPath": "runtime.any.system.io.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Reflection/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hLC3A3rI8jipR5d9k7+f0MgRCW6texsAp0MWkN/ci18FMtQ9KH7E2vDn/DH2LkxsszlpJpOn9qy6Z6/69rH6eQ==",
+      "path": "runtime.any.system.reflection/4.3.0",
+      "hashPath": "runtime.any.system.reflection.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Reflection.Primitives/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Nrm1p3armp6TTf2xuvaa+jGTTmncALWFq22CpmwRvhDf6dE9ZmH40EbOswD4GnFLrMRS0Ki6Kx5aUPmKK/hZBg==",
+      "path": "runtime.any.system.reflection.primitives/4.3.0",
+      "hashPath": "runtime.any.system.reflection.primitives.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fRS7zJgaG9NkifaAxGGclDDoRn9HC7hXACl52Or06a/fxdzDajWb5wov3c6a+gVSlekRoexfjwQSK9sh5um5LQ==",
+      "path": "runtime.any.system.runtime/4.3.0",
+      "hashPath": "runtime.any.system.runtime.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Text.Encoding/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+ihI5VaXFCMVPJNstG4O4eo1CfbrByLxRrQQTqOTp1ttK0kUKDqOdBSTaCB2IBk/QtjDrs6+x4xuezyMXdm0HQ==",
+      "path": "runtime.any.system.text.encoding/4.3.0",
+      "hashPath": "runtime.any.system.text.encoding.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Threading.Tasks/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OhBAVBQG5kFj1S+hCEQ3TUHBAEtZ3fbEMgZMRNdN8A0Pj4x+5nTELEqL59DU0TjKVE6II3dqKw4Dklb3szT65w==",
+      "path": "runtime.any.system.threading.tasks/4.3.0",
+      "hashPath": "runtime.any.system.threading.tasks.4.3.0.nupkg.sha512"
     },
     "SkiaSharp/2.88.9": {
       "type": "package",
@@ -1385,6 +1609,20 @@
       "path": "sungaila.pdfium.blazorwebassembly/128.0.6569",
       "hashPath": "sungaila.pdfium.blazorwebassembly.128.0.6569.nupkg.sha512"
     },
+    "System.Collections.Immutable/9.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CfYi30Pbpw9aGpXVLcoGt+yM0egrE8M1DUOOwdAWOAQ2QZkXkSgjonqZYvtKdxUF1XJaLCp0OdTXueeAeUHSlQ==",
+      "path": "system.collections.immutable/9.0.3",
+      "hashPath": "system.collections.immutable.9.0.3.nupkg.sha512"
+    },
+    "System.IO/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3qjaHvxQPDpSOYICjUoTsmoq5u6QJAFRUITgeT/4gqkF1bajbSmb1kwSxEA8AHlofqgcKJcM8udgieRNhaJ5Cg==",
+      "path": "system.io/4.3.0",
+      "hashPath": "system.io.4.3.0.nupkg.sha512"
+    },
     "System.IO.Pipelines/8.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1392,12 +1630,75 @@
       "path": "system.io.pipelines/8.0.0",
       "hashPath": "system.io.pipelines.8.0.0.nupkg.sha512"
     },
+    "System.Private.Uri/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I4SwANiUGho1esj4V4oSlPllXjzCZDE+5XXso2P03LW2vOda2Enzh8DWOxwN6hnrJyp314c7KuVu31QYhRzOGg==",
+      "path": "system.private.uri/4.3.0",
+      "hashPath": "system.private.uri.4.3.0.nupkg.sha512"
+    },
     "System.Reactive/5.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ==",
       "path": "system.reactive/5.0.0",
       "hashPath": "system.reactive.5.0.0.nupkg.sha512"
+    },
+    "System.Reflection/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KMiAFoW7MfJGa9nDFNcfu+FpEdiHpWgTcS2HdMpDvt9saK3y/G4GwprPyzqjFH9NTaGPQeWNHU+iDlDILj96aQ==",
+      "path": "system.reflection/4.3.0",
+      "hashPath": "system.reflection.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection.Emit/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-228FG0jLcIwTVJyz8CLFKueVqQK36ANazUManGaJHkO0icjiIypKW7YLWLIWahyIkdh5M7mV2dJepllLyA1SKg==",
+      "path": "system.reflection.emit/4.3.0",
+      "hashPath": "system.reflection.emit.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection.Emit.ILGeneration/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
+      "path": "system.reflection.emit.ilgeneration/4.3.0",
+      "hashPath": "system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection.Metadata/9.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7oYePO1JGlCPxOzawf8nkn80eYYboQaB4FvBWDPEvOzVHZVf96tdgbgq8LHSBrkeQoLRivx7+YhTCtirdQ386g==",
+      "path": "system.reflection.metadata/9.0.3",
+      "hashPath": "system.reflection.metadata.9.0.3.nupkg.sha512"
+    },
+    "System.Reflection.Primitives/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5RXItQz5As4xN2/YUDxdpsEkMhvw3e6aNveFXUn4Hl/udNTCNhnKp8lT9fnc3MhvGKh1baak5CovpuQUXHAlIA==",
+      "path": "system.reflection.primitives/4.3.0",
+      "hashPath": "system.reflection.primitives.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JufQi0vPQ0xGnAczR13AUFglDyVYt4Kqnz1AZaiKZ5+GICq0/1MH/mO/eAJHt/mHW1zjKBJd7kV26SrxddAhiw==",
+      "path": "system.runtime/4.3.0",
+      "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Text.Encoding/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BiIg+KWaSDOITze6jGQynxg64naAPtqGHBwDrLaCtixsa5bKiR8dpPOHA7ge3C0JJQizJE+sfkz1wV+BAKAYZw==",
+      "path": "system.text.encoding/4.3.0",
+      "hashPath": "system.text.encoding.4.3.0.nupkg.sha512"
+    },
+    "System.Threading.Tasks/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
+      "path": "system.threading.tasks/4.3.0",
+      "hashPath": "system.threading.tasks.4.3.0.nupkg.sha512"
     },
     "Tmds.DBus.Protocol/0.21.2": {
       "type": "package",
