@@ -2213,6 +2213,7 @@
           "PDFiumSharpV2": "1.1.4",
           "SkyInfo.Crva.Detran.Digitaliza.Compartilhado": "0.0.2",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Autenticação": "1.0.0",
+          "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Notificação": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0",
           "ZXing.Net": "0.16.10",
           "ZXing.Net.Bindings.SkiaSharp": "0.16.21"
