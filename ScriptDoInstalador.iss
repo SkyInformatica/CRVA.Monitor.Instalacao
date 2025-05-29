@@ -3,8 +3,8 @@
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
 #define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
 #define NomeDoExecutavelDoGerenciadorDeMonitoracao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeMonitoração.exe"
-#define CaminhoDaFonteDaAplicacao "gerenciador"
-#define CaminhoDoFonteDoGerenciadorDeMonitoracao "gerenciador-de-monitoracao"
+#define CaminhoDaFonteDaAplicacao "Binários\gerenciador"
+#define CaminhoDoFonteDoGerenciadorDeMonitoracao "Binários\gerenciador-de-monitoração"
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
 #define Versao "20250527.dev"
@@ -41,7 +41,7 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
 [Files]
-Source: "src\*"; DestDir: "{tmp}"; Flags: replacesameversion;
+Source: "Binários\assistente-de-instalação\*"; DestDir: "{tmp}"; Flags: replacesameversion;
 
 ; --> Arquivos x64
 [Files]
@@ -60,23 +60,22 @@ Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Arma
 Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x86\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
 
 [UninstallDelete]
-Type: files; Name: "{app}\Chave.txt";
+Type: files; Name: "{app}\*";
 Type: filesandordirs; Name: "{app}\Monitor";
+Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
 Type: filesandordirs; Name: "{app}\.temp"
 Type: filesandordirs; Name: "{app}\.old";
 
 [InstallDelete]
-Type: files; Name: "{app}\Chave.txt"; 
-Type: files; Name: "{app}\appsettings.json";
+Type: files; Name: "{app}\*";
 Type: filesandordirs; Name: "{app}\Monitor";
+Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
 Type: filesandordirs; Name: "{app}\.temp"
 Type: filesandordirs; Name: "{app}\.old";
 
 [Code]
-const Debug = False;
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
-const ComandoDePararGerenciador = 'remover "{#NomeDaAplicacao}"';
 
 function IniciarGerenciadorDeMonitoracao(): Boolean;
 var
