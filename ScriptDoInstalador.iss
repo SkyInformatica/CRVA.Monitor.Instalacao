@@ -24,7 +24,7 @@ AppUpdatesURL={#UrlDaAplicacao}
 DefaultDirName={autopf}\{#NomeDaAplicacao}
 ArchitecturesInstallIn64BitMode=win64
 DefaultGroupName={#NomeDaAplicacao}
-DisableProgramGroupPage=yes
+DisableProgramGroupPage=no
 PrivilegesRequired=admin
 OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
@@ -33,6 +33,7 @@ OutputDir=D:\a\{#NomeDaAplicacao}\{#NomeDaAplicacao}\Instalador
 WizardStyle=modern
 CloseApplications=force
 MergeDuplicateFiles=no
+DisableDirPage=yes
 
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
