@@ -1,9 +1,13 @@
-#define NomeDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor"
+#define NomeDaAplicacao "SkyDigitalliza.Desktop"
 #define NomeDaEmpresa "Sky Informática Ltda."
 #define UrlDaAplicacao "https://github.com/SkyInformatica/CRVA.Monitor.Instalacao"
-#define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Detran.Digitaliza.Monitor.exe"
-#define CaminhoDaFonteDaAplicacao "src"
+#define NomeDoExecutavelDaAplicacao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeAplicações.exe"
+#define NomeDoExecutavelDoGerenciadorDeMonitoracao "SkyInfo.Crva.Digitalliza.Desktop.Serviço.GerenciadorDeMonitoração.exe"
+#define CaminhoDaFonteDaAplicacao "Binários\gerenciador"
+#define CaminhoDoFonteDoGerenciadorDeMonitoracao "Binários\gerenciador-de-monitoração"
+#define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
+#define Versao "20250527.dev"
 
 #include "Dependências\CodeDependencies.iss"
 #include "Dependências\UtilitáriosDeAdministraçãoWindows.iss"
@@ -20,55 +24,113 @@ AppUpdatesURL={#UrlDaAplicacao}
 DefaultDirName={autopf}\{#NomeDaAplicacao}
 ArchitecturesInstallIn64BitMode=win64
 DefaultGroupName={#NomeDaAplicacao}
-DisableProgramGroupPage=yes
-; PrivilegesRequired=admin ; --> Para publicar uma versão final, deixa os privilégios como admin. Para testes, deixar como lowest.
+DisableProgramGroupPage=no
 PrivilegesRequired=admin
 OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
 SolidCompression=yes
-OutputDir=D:\a\SkyInfo.Crva.Monitor.Instalador.Dev\SkyInfo.Crva.Monitor.Instalador.Dev\Instalador
+OutputDir=D:\a\{#NomeDaAplicacao}\{#NomeDaAplicacao}\Instalador
 WizardStyle=modern
 CloseApplications=force
 MergeDuplicateFiles=no
+DisableDirPage=yes
+
+[Registry]
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
+
+[Files]
+Source: "Binários\assistente-de-instalação\*"; DestDir: "{tmp}"; Flags: replacesameversion;
 
 ; --> Arquivos x64
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
 Source: "{#CaminhoDaFonteDaAplicacao}\x64\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\Registros.db"; DestDir: "{app}"; Flags: noencryption nocompression; Check: Is64BitInstallMode;
+Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
+Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: Is64BitInstallMode;
+Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x64\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
 
 ; --> Arquivos x86
 [Files]
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
 Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\Registros.db"; DestDir: "{app}"; Flags: noencryption nocompression; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x86\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
 
 [UninstallDelete]
-Type: files; Name: "{app}\Chave.txt";
+Type: files; Name: "{app}\*";
+Type: filesandordirs; Name: "{app}\Monitor";
+Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
+Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.old";
 
 [InstallDelete]
-Type: files; Name: "{app}\Chave.txt"; 
-Type: files; Name: "{app}\appsettings.json";
+Type: files; Name: "{app}\*";
+Type: filesandordirs; Name: "{app}\Monitor";
+Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
+Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.old";
 
 [Code]
-const Debug = False;
+const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
+const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
+
+function IniciarGerenciadorDeMonitoracao(): Boolean;
+var
+  CaminhoDoGerenciador: String;
+  ResultCode: Integer;
+begin
+  Result := False;
+  CaminhoDoGerenciador := ExpandConstant('{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}');
+  
+  if FileExists(CaminhoDoGerenciador) then
+  begin
+    if ExecAsOriginalUser(CaminhoDoGerenciador, '', '', SW_HIDE, ewNoWait, ResultCode) then
+    begin
+      Log('Gerenciador de Monitoração iniciado com sucesso');
+      Result := True;
+    end
+    else
+    begin
+      Log('Falha ao iniciar o Gerenciador de Monitoração. Código: ' + IntToStr(ResultCode));
+    end;
+  end
+  else
+  begin
+    Log('Executável do Gerenciador de Monitoração não encontrado: ' + CaminhoDoGerenciador);
+  end;
+end;
+
+function PararGerenciadorDeMonitoracao(): Boolean;
+var
+  ResultCode: Integer;
+begin
+  Result := False;
+  if Exec('taskkill', '/F /IM "{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Log('Gerenciador de Monitoração parado com sucesso');
+    Result := True;
+  end
+  else
+  begin
+    Log('Falha ao parar o Gerenciador de Monitoração ou processo não estava em execução. Código: ' + IntToStr(ResultCode));
+    Result := True; // Considera sucesso mesmo se o processo não estava rodando
+  end;
+end;
 
 var
   PaginaInicial: TOutputMsgWizardPage;
   PaginaDeSelecaoDoDiretorioDeDocumentos: TInputDirWizardPage;
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico: TInputOptionWizardPage;
-  PaginaDeSelecaoDoDiretorioDeDocumentosEnviados: TInputDirWizardPage;
   PaginaDeCredenciaisDoUsuario: TInputQueryWizardPage;
   PaginaDeSelecaoDaOrganizacao: TInputOptionWizardPage;
   PaginaDeCredenciaisDoWindows: TInputQueryWizardPage;
   UtilizarCredenciaisDoWindows: Boolean;
   Organizacoes: TOrganizacoes;
-  OrganizacaoId, DiretorioDeDocumentosEnviados, DiretorioDeDocumentos, Email, Senha, DominioValido: String;
+  OrganizacaoId, DiretorioDeDocumentos, Email, Senha, DominioValido, NomeUsuarioWindows, SenhaWindows: String;
 
 function DevePularPaginaDeOrganizacao(Page: TWizardPage): Boolean;
 begin
@@ -89,6 +151,18 @@ begin
   Result := Is64BitInstallMode() = False;
 end;
 
+function ObterParametrosDeRegistroDoServico(): String;
+begin
+  if not UtilizarCredenciaisDoWindows then
+  begin
+    Result := Utf8Encode(Format(ComandoDeRegistroNormal, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}']));
+  end
+  else
+  begin
+    Result := Utf8Encode(Format(ComandoDeRegistroComCredenciais, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}', DominioValido + '\' + NomeUsuarioWindows, SenhaWindows]));
+  end;
+end;
+
 procedure InitializeWizard();
 begin
   PaginaInicial := CreateOutputMsgPage(
@@ -101,23 +175,14 @@ begin
   PaginaDeSelecaoDoDiretorioDeDocumentos := CreateInputDirPage(
     PaginaInicial.ID,
     'Diretório de Documentos do Scanner',
-    'Por favor, selecione o local onde estão armazenados os documentos digitalizados pelo scanner.',
-    '',
-    True,
-    ''
-  );
-
-  PaginaDeSelecaoDoDiretorioDeDocumentosEnviados := CreateInputDirPage(
-    PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
-    'Diretório de Documentos Enviados',
-    'Por favor, selecione o local onde o monitor irá armazenar os documentos que já foram enviados para o servidor do Sky Digitaliza.',
-    '',
+    'Por favor, selecione o diretório de monitoração, nele serão criadas as pastas "Processados" e "Escaneados", caso ainda não existam.',
+    'Os documentos que forem enviados para o servidor do Sky Digitaliza serão armazenados na pasta "Processados", os que ainda não foram enviados devem ser armazenados na pasta "Escaneados". Assim que a instalação for concluída, aponte o diretório de saída do scanner para o diretório "Escaneados" para que os documentos sejam digitalizados.',
     True,
     ''
   );
   
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico := CreateInputOptionPage(
-    PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.ID,
+    PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
     'Tipo de Instalação', 
     'Utilizar usuário e senha administrativa para criar o serviço?',
     'Caso sua máquina tenha políticas de permissão rígorosas, assinale esta opção.',
@@ -155,7 +220,6 @@ begin
   PaginaDeCredenciaisDoWindows.OnShouldSkipPage := @NaoUtilizarCredenciaisDoWindows;
   
   PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
-  PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.Add('');
 
   PaginaDeCredenciaisDoUsuario.Add('Email:', False);
   PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
@@ -170,9 +234,24 @@ begin
   Result := True;
 end;
 
+procedure ObterDominioDoUsuario(out Resultado: String);
+var 
+  ResultCode: Integer;
+  ListaDeStrings: TArrayOfString;
+begin
+  if ExecWithResult('whoami', '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, Resultado) then
+  begin
+    if ResultCode = 0 then
+    begin
+      ListaDeStrings := DividirString(Resultado, '\');
+      Resultado := ListaDeStrings[0];
+    end;
+  end;
+end;
+
 function NextButtonClick(CurPageID: Integer): Boolean;
 var
-  NomeUsuarioWindows, SenhaWindows, JsonResponse: string;
+  JsonResponse: string;
   I, OrganizacoesSelecionadas: Integer;
 begin
   Result := True;
@@ -228,31 +307,16 @@ begin
     NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
     SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
     DominioValido := '';
+    ObterDominioDoUsuario(DominioValido);
   end;
 end;
 
-procedure ObterDominioDoUsuario(out Resultado: String);
-var 
-  ResultCode: Integer;
-  ListaDeStrings: TArrayOfString;
-begin
-  if ExecWithResult('whoami', '', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, Resultado) then
-  begin
-    if ResultCode = 0 then
-    begin
-      ListaDeStrings := DividirString(Resultado, '\');
-      Resultado := ListaDeStrings[0];
-    end;
-  end;
-end;
-
-procedure AtualizarAppSettings();
+procedure AtualizarAppSettings(diretorioDoAppSettings: String);
 var
-  JSONString, CaminhoDoAppSettings: String;
+  JSONString, CaminhoDoAppSettings: AnsiString;
 begin
-  CaminhoDoAppSettings := ExpandConstant('{app}\appsettings.json');
+  CaminhoDoAppSettings := diretorioDoAppSettings + '\appsettings.json';
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
-  DiretorioDeDocumentosEnviados := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentosEnviados.Values[0], '\', '/');
   JSONString := ObterTextoDoArquivo(CaminhoDoAppSettings);
   if JSONString = '' then
   begin
@@ -261,11 +325,22 @@ begin
   end;
   
   JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
-  JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_ENVIOS"', '"' + DiretorioDeDocumentosEnviados + '"');
   JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
   JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
   JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
+  
+  if not SameStr(DominioValido, '') then
+  begin
+    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '/' + NomeUsuarioWindows + '"');
+  end
+  else
+  begin
+    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
+  end;
+  
+  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
 
+  Log(JSONString);
   SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
 end;
 
@@ -273,85 +348,55 @@ procedure ExibirMensagemComResultCode(Mensagem: String; ResultCode: Integer);
 var
   MensagemFormatada: String;
 begin
-  if Debug = True then
-  begin
-    MensagemFormatada := Mensagem+'. [CODIGO: '+IntToStr(ResultCode)+']';
-    MsgBox(MensagemFormatada, mbInformation, MB_OK);
-  end;
+  MensagemFormatada := Mensagem+'. [CODIGO: '+IntToStr(ResultCode)+']';
+  Log(MensagemFormatada);
 end;
 
-procedure CriarServicoDoWindows(NomeUsuario, SenhaUsuario, DominioUsuario: string);
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var
   ResultCode: Integer;
 begin
-  UtilizarCredenciaisDoWindows := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0];
-  if not UtilizarCredenciaisDoWindows then
+  if CurUninstallStep = usUninstall then
   begin
-    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') + '" start= auto obj="LocalSystem"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
-  end
-  else
-  begin
-    Exec('sc', 'create {#NomeDaAplicacao} binPath= "' + ExpandConstant('{app}\{#NomeDoExecutavelDaAplicacao}') +
-      '" start= auto obj= "' + DominioUsuario + '\' + NomeUsuario + '" password= "' + SenhaUsuario + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    // Para o gerenciador de monitoração
+    PararGerenciadorDeMonitoracao();
+    
+    // Para o serviço principal
+    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+    end;
   end;
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   ResultCode: Integer;
-  NomeUsuarioWindows, SenhaWindows, Dominio: string;
 begin
   if CurStep = ssInstall then
   begin
-    if Exec('sc', 'stop {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    // Para o gerenciador de monitoração se estiver rodando
+    PararGerenciadorDeMonitoracao();
+    
+    // Para o serviço principal
+    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
-      ExibirMensagemComResultCode('Serviço do Windows foi parado', ResultCode);
+      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
     end;
+    
     Sleep(1000);
   end;
 
   if CurStep = ssPostInstall then
   begin
-    AtualizarAppSettings();
-  end;
-  
-  if CurStep = ssDone then
-  begin
-    NomeUsuarioWindows := PaginaDeCredenciaisDoWindows.Values[0];
-    SenhaWindows := PaginaDeCredenciaisDoWindows.Values[1];
-    ObterDominioDoUsuario(Dominio);
+    AtualizarAppSettings(ExpandConstant('{app}'));
+    AtualizarAppSettings(ExpandConstant('{app}\GerenciadorDeMonitoracao'));
     
-    CriarServicoDoWindows(NomeUsuarioWindows, SenhaWindows, Dominio);
-    ExibirMensagemComResultCode('Serviço criado', ResultCode);
-    Sleep(1500);
-    if Exec('sc', 'start {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço iniciado', ResultCode);
-    end
-    else
-    begin
-      ExibirMensagemComResultCode('Erro ao tentar iniciar o serviço no Windows', ResultCode);
-    end;
-  end;
-end;
-
-procedure CurUninstallStepChanged(CurStep: TUninstallStep);
-var
-  ResultCode: Integer;
-begin
-  if CurStep = usUninstall then
-  begin
-    if Exec('sc', 'stop {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço no Windows foi Parado', ResultCode);
-      Sleep(1000);
-    end;
+    // Registra e inicia o serviço principal
+    ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
+    ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', 'iniciar "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
     
-    if Exec('sc', 'delete {#NomeDaAplicacao}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      ExibirMensagemComResultCode('Serviço no Windows foi deletado', ResultCode);
-    end;
-    
-    Sleep(1000);
+    // Inicia o gerenciador de monitoração como usuário normal
+    IniciarGerenciadorDeMonitoracao();
   end;
 end;

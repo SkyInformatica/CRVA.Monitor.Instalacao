@@ -35,9 +35,9 @@ begin
 end;
 
 // Função para procurar e substituir uma string
-function SubstituirString(const S, OldPattern, NewPattern: String): String;
+function SubstituirString(const S, OldPattern, NewPattern: AnsiString): AnsiString;
 var
-  ResultString: String;
+  ResultString: AnsiString;
   SearchPos: Integer;
 begin
   ResultString := S;
@@ -48,7 +48,7 @@ begin
     Insert(NewPattern, ResultString, SearchPos);
     SearchPos := Pos(OldPattern, ResultString);
   end;
-  Result := ResultString;
+  Result := Utf8Encode(ResultString);
 end;
 
 // Função que faz divisão de strings baseadas em um delimitador.
