@@ -1,6 +1,0 @@
-Monitor:
-- changed-files:
-  - any-glob-to-any-file: monitor/**
-Gerenciador:
-- changed-files:
-  - any-glob-to-any-file: gerenciador/**
