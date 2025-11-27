@@ -44,21 +44,12 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 [Files]
 Source: "Binários\assistente-de-instalação\*"; DestDir: "{tmp}"; Flags: replacesameversion;
 
-; --> Arquivos x64
 [Files]
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: Is64BitInstallMode;
-Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x64\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
-
-; --> Arquivos x86
-[Files]
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x86\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDaFonteDaAplicacao}\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion;
+Source: "{#CaminhoDaFonteDaAplicacao}\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion;
+Source: "{#CaminhoDaFonteDaAplicacao}\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion;
+Source: "{#CaminhoDaFonteDaAplicacao}\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression;
+Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion;
 
 [UninstallDelete]
 Type: files; Name: "{app}\*";

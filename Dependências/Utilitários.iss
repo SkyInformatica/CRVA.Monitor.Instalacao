@@ -1,7 +1,7 @@
 #include 'JsonUtils.iss'
 
 [Code]
-const EndpointDeAutenticacao = 'https://api-digitalliza.skyinfo.cc/api/autenticacao/autenticar';
+const EndpointDeAutenticacao = 'http://localhost:5000/api/autenticacao/autenticar';
 
 // Exec with output stored in result.
 // ResultString will only be altered if True is returned.
