@@ -7,7 +7,7 @@
 #define CaminhoDoFonteDoGerenciadorDeMonitoracao "Binários\gerenciador-de-monitoração"
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
-#define Versao "20250527.dev"
+#define Versao "20251127"
 
 #include "Dependências\CodeDependencies.iss"
 #include "Dependências\UtilitáriosDeAdministraçãoWindows.iss"
