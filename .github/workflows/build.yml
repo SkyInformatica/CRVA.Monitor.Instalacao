@@ -27,7 +27,7 @@ jobs:
       - name: Compilar Instalador Inno
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
-          path: .\ScriptDoInstalador.iss
+          path: ./ScriptDoInstalador.iss
           options: /O+ /dVersao="${{ env.VERSION }}"
 
       - name: Criar release no GitHub
