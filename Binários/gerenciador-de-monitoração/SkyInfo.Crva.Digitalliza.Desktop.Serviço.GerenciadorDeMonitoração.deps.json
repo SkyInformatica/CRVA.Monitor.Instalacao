@@ -16,7 +16,6 @@
           "Avalonia.Fonts.Inter": "11.3.9",
           "Avalonia.Themes.Fluent": "11.3.9",
           "AvaloniaPdfViewer": "0.0.2-pre",
-          "HotAvalonia": "3.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Aplicação.Genérica": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.Documento": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0",
@@ -57,6 +56,10 @@
             "fileVersion": "8.0.1825.31117"
           },
           "System.Collections.Concurrent.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1825.31117"
+          },
+          "System.Collections.Immutable.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1825.31117"
           },
@@ -393,6 +396,10 @@
             "fileVersion": "8.0.1825.31117"
           },
           "System.Reflection.Extensions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1825.31117"
+          },
+          "System.Reflection.Metadata.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1825.31117"
           },
@@ -857,18 +864,6 @@
           }
         }
       },
-      "Avalonia.Markup.Xaml.Loader/11.0.0": {
-        "dependencies": {
-          "Avalonia": "11.3.9",
-          "System.Reflection.Emit": "4.3.0"
-        },
-        "runtime": {
-          "lib/net6.0/Avalonia.Markup.Xaml.Loader.dll": {
-            "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.0.0"
-          }
-        }
-      },
       "Avalonia.Native/11.3.9": {
         "dependencies": {
           "Avalonia": "11.3.9"
@@ -1021,7 +1016,6 @@
           }
         }
       },
-      "Fody/6.9.2": {},
       "HarfBuzzSharp/8.3.1.1": {
         "dependencies": {
           "HarfBuzzSharp.NativeAssets.Win32": "8.3.1.1",
@@ -1042,25 +1036,6 @@
           "runtimes/win-x64/native/libHarfBuzzSharp.dll": {
             "fileVersion": "0.0.0.0"
           }
-        }
-      },
-      "HotAvalonia/3.0.0": {
-        "dependencies": {
-          "Avalonia.Markup.Xaml.Loader": "11.0.0",
-          "HotAvalonia.Core": "3.0.0",
-          "HotAvalonia.Extensions": "3.0.0",
-          "HotAvalonia.Fody": "3.0.0"
-        }
-      },
-      "HotAvalonia.Core/3.0.0": {
-        "dependencies": {
-          "System.Reflection.Metadata": "9.0.3"
-        }
-      },
-      "HotAvalonia.Extensions/3.0.0": {},
-      "HotAvalonia.Fody/3.0.0": {
-        "dependencies": {
-          "Fody": "6.9.2"
         }
       },
       "JsonNet.ContractResolvers/2.0.0": {
@@ -2177,14 +2152,6 @@
       },
       "Sungaila.PDFium.BlazorWebAssembly/128.0.6569": {},
       "System.Buffers/4.5.1": {},
-      "System.Collections.Immutable/9.0.3": {
-        "runtime": {
-          "lib/net8.0/System.Collections.Immutable.dll": {
-            "assemblyVersion": "9.0.0.0",
-            "fileVersion": "9.0.325.11113"
-          }
-        }
-      },
       "System.Collections.NonGeneric/4.3.0": {
         "dependencies": {
           "System.Diagnostics.Debug": "4.3.0",
@@ -2324,22 +2291,6 @@
           "runtime.any.System.Reflection": "4.3.0"
         }
       },
-      "System.Reflection.Emit/4.3.0": {
-        "dependencies": {
-          "System.IO": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Reflection.Emit.ILGeneration": "4.3.0",
-          "System.Reflection.Primitives": "4.3.0",
-          "System.Runtime": "4.3.0"
-        }
-      },
-      "System.Reflection.Emit.ILGeneration/4.3.0": {
-        "dependencies": {
-          "System.Reflection": "4.3.0",
-          "System.Reflection.Primitives": "4.3.0",
-          "System.Runtime": "4.3.0"
-        }
-      },
       "System.Reflection.Extensions/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -2347,17 +2298,6 @@
           "System.Reflection": "4.3.0",
           "System.Runtime": "4.3.0",
           "runtime.any.System.Reflection.Extensions": "4.3.0"
-        }
-      },
-      "System.Reflection.Metadata/9.0.3": {
-        "dependencies": {
-          "System.Collections.Immutable": "9.0.3"
-        },
-        "runtime": {
-          "lib/net8.0/System.Reflection.Metadata.dll": {
-            "assemblyVersion": "9.0.0.0",
-            "fileVersion": "9.0.325.11113"
-          }
         }
       },
       "System.Reflection.Primitives/4.3.0": {
@@ -2770,13 +2710,6 @@
       "path": "avalonia.freedesktop/11.3.9",
       "hashPath": "avalonia.freedesktop.11.3.9.nupkg.sha512"
     },
-    "Avalonia.Markup.Xaml.Loader/11.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-SDcf5qvleyTb0R24vzZBhFJV9ONlGz0ftOBRxXiSy7R6c513Rjnae0IImuUXSIj+Bmn8AjU6x9eDFRJO78pYVA==",
-      "path": "avalonia.markup.xaml.loader/11.0.0",
-      "hashPath": "avalonia.markup.xaml.loader.11.0.0.nupkg.sha512"
-    },
     "Avalonia.Native/11.3.9": {
       "type": "package",
       "serviceable": true,
@@ -2882,13 +2815,6 @@
       "path": "fluentvalidation/8.5.0",
       "hashPath": "fluentvalidation.8.5.0.nupkg.sha512"
     },
-    "Fody/6.9.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-YBHobPGogb0vYhGYIxn/ndWqTjNWZveDi5jdjrcshL2vjwU3gQGyDeI7vGgye+2rAM5fGRvlLgNWLW3DpviS/w==",
-      "path": "fody/6.9.2",
-      "hashPath": "fody.6.9.2.nupkg.sha512"
-    },
     "HarfBuzzSharp/8.3.1.1": {
       "type": "package",
       "serviceable": true,
@@ -2923,34 +2849,6 @@
       "sha512": "sha512-UsJtQsfAJoFDZrXc4hCUfRPMqccfKZ0iumJ/upcUjz/cmsTgVFGNEL5yaJWmkqsuFYdMWbj/En5/kS4PFl9hBA==",
       "path": "harfbuzzsharp.nativeassets.win32/8.3.1.1",
       "hashPath": "harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg.sha512"
-    },
-    "HotAvalonia/3.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-p6rp7jpkfbQyCW+I3YAAP/ABmwsw+5yD0GG5BGWZFRFpjy6pBwTRJIfbWLjbUp3sC0BJs2poJMT5aQzTMS79yQ==",
-      "path": "hotavalonia/3.0.0",
-      "hashPath": "hotavalonia.3.0.0.nupkg.sha512"
-    },
-    "HotAvalonia.Core/3.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6mYHcr79mhOBuKJHOJA+oub8/rNR3TtiTFbVdPadmrKJv3+KZPHuZzFkSDn3KRubB0z3cw/JljKOj08K7LicRQ==",
-      "path": "hotavalonia.core/3.0.0",
-      "hashPath": "hotavalonia.core.3.0.0.nupkg.sha512"
-    },
-    "HotAvalonia.Extensions/3.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-19rlMjkerMeOZwt2EHdWGS+36GlpurLC38c2iP55a9cbZ1NV3OY27V0Tq68ZpqVeFMYTlXFFdu1ydbREPPcqeQ==",
-      "path": "hotavalonia.extensions/3.0.0",
-      "hashPath": "hotavalonia.extensions.3.0.0.nupkg.sha512"
-    },
-    "HotAvalonia.Fody/3.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-5FGM1na5gEnzUV67MmvTBjZXUjPjavkbncZeyZ/q9GxGjiwvMej0+H5VwIDCcMQWGVucBgHN5u8gz+a0IPQq7Q==",
-      "path": "hotavalonia.fody/3.0.0",
-      "hashPath": "hotavalonia.fody.3.0.0.nupkg.sha512"
     },
     "JsonNet.ContractResolvers/2.0.0": {
       "type": "package",
@@ -3736,13 +3634,6 @@
       "path": "system.buffers/4.5.1",
       "hashPath": "system.buffers.4.5.1.nupkg.sha512"
     },
-    "System.Collections.Immutable/9.0.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-CfYi30Pbpw9aGpXVLcoGt+yM0egrE8M1DUOOwdAWOAQ2QZkXkSgjonqZYvtKdxUF1XJaLCp0OdTXueeAeUHSlQ==",
-      "path": "system.collections.immutable/9.0.3",
-      "hashPath": "system.collections.immutable.9.0.3.nupkg.sha512"
-    },
     "System.Collections.NonGeneric/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -3855,33 +3746,12 @@
       "path": "system.reflection/4.3.0",
       "hashPath": "system.reflection.4.3.0.nupkg.sha512"
     },
-    "System.Reflection.Emit/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-228FG0jLcIwTVJyz8CLFKueVqQK36ANazUManGaJHkO0icjiIypKW7YLWLIWahyIkdh5M7mV2dJepllLyA1SKg==",
-      "path": "system.reflection.emit/4.3.0",
-      "hashPath": "system.reflection.emit.4.3.0.nupkg.sha512"
-    },
-    "System.Reflection.Emit.ILGeneration/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
-      "path": "system.reflection.emit.ilgeneration/4.3.0",
-      "hashPath": "system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512"
-    },
     "System.Reflection.Extensions/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-rJkrJD3kBI5B712aRu4DpSIiHRtr6QlfZSQsb0hYHrDCZORXCFjQfoipo2LaMUHoT9i1B7j7MnfaEKWDFmFQNQ==",
       "path": "system.reflection.extensions/4.3.0",
       "hashPath": "system.reflection.extensions.4.3.0.nupkg.sha512"
-    },
-    "System.Reflection.Metadata/9.0.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-7oYePO1JGlCPxOzawf8nkn80eYYboQaB4FvBWDPEvOzVHZVf96tdgbgq8LHSBrkeQoLRivx7+YhTCtirdQ386g==",
-      "path": "system.reflection.metadata/9.0.3",
-      "hashPath": "system.reflection.metadata.9.0.3.nupkg.sha512"
     },
     "System.Reflection.Primitives/4.3.0": {
       "type": "package",
