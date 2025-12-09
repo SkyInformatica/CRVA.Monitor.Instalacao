@@ -30,7 +30,7 @@ OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
 SolidCompression=yes
 OutputDir=Instalador
-WizardStyle=modern
+WizardStyle=modern dynamic polar includetitlebar
 CloseApplications=force
 MergeDuplicateFiles=no
 DisableDirPage=yes
@@ -68,6 +68,10 @@ Type: filesandordirs; Name: "{app}\.old";
 [Code]
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
+const ComandoDeRemocaoDoServico = 'remover "%s"';
+
+// <CAMINHO_DO_APPSETTINGS> <DIRETORIO_DE_DOCUMENTOS> <EMAIL_DO_USUARIO> <SENHA_DO_USUARIO> <ORGANIZACAO_DO_USUARIO> <ARQUIVO_DE_ARMAZENAMENTO_DE_REGISTROS>
+const ComandoDeAtualizacaoDoAppSettings = 'atualizar-appsettings "%s" "%s" "%s" "%s" "%s" "%s"';
 
 function IniciarGerenciadorDeMonitoracao(): Boolean;
 var
@@ -137,11 +141,6 @@ begin
   Result := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0] = False;
 end;
 
-function InstalacaoEm32Bits: Boolean;
-begin
-  Result := Is64BitInstallMode() = False;
-end;
-
 function ObterParametrosDeRegistroDoServico(): String;
 begin
   if not UtilizarCredenciaisDoWindows then
@@ -152,6 +151,13 @@ begin
   begin
     Result := Utf8Encode(Format(ComandoDeRegistroComCredenciais, ['{#NomeDaAplicacao}', ExpandConstant('{app}') + '\{#NomeDoExecutavelDaAplicacao}', DominioValido + '\' + NomeUsuarioWindows, SenhaWindows]));
   end;
+end;
+
+procedure RemoverGerenciadorDeAplicacoes();
+var
+  ResultCode: Integer;
+begin
+  ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', Utf8Encode(Format(ComandoDeRemocaoDoServico, ['{#NomeDaAplicacao}'])), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
 end;
 
 procedure InitializeWizard();
@@ -304,35 +310,15 @@ end;
 
 procedure AtualizarAppSettings(diretorioDoAppSettings: String);
 var
-  JSONString, CaminhoDoAppSettings: AnsiString;
+  CaminhoDoAppSettings: AnsiString;
+  ResultCode: Integer;
+  ArquivoDeArmazenamentoDeRegistros: AnsiString;
 begin
   CaminhoDoAppSettings := diretorioDoAppSettings + '\appsettings.json';
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
-  JSONString := ObterTextoDoArquivo(CaminhoDoAppSettings);
-  if JSONString = '' then
-  begin
-    MsgBox('Falha ao ler o appsettings.json ou o arquivo está vazio.', mbError, MB_OK);
-    Exit;
-  end;
+  ArquivoDeArmazenamentoDeRegistros := SubstituirString(ExpandConstant('{app}') + '\Armazenamento\Registros.db', '\', '/');
   
-  JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
-  JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
-  JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
-  JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
-  
-  if not SameStr(DominioValido, '') then
-  begin
-    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '/' + NomeUsuarioWindows + '"');
-  end
-  else
-  begin
-    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
-  end;
-  
-  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
-
-  Log(JSONString);
-  SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
+  ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', UTF8Encode(Format(ComandoDeAtualizacaoDoAppSettings, [CaminhoDoAppSettings, DiretorioDeDocumentos, Email, Senha, OrganizacaoId, ArquivoDeArmazenamentoDeRegistros])), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
 end;
 
 procedure ExibirMensagemComResultCode(Mensagem: String; ResultCode: Integer);
@@ -344,19 +330,11 @@ begin
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-var
-  ResultCode: Integer;
 begin
   if CurUninstallStep = usUninstall then
   begin
-    // Para o gerenciador de monitoração
     PararGerenciadorDeMonitoracao();
-    
-    // Para o serviço principal
-    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    end;
+    RemoverGerenciadorDeAplicacoes();
   end;
 end;
 
@@ -366,14 +344,8 @@ var
 begin
   if CurStep = ssInstall then
   begin
-    // Para o gerenciador de monitoração se estiver rodando
     PararGerenciadorDeMonitoracao();
-    
-    // Para o serviço principal
-    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    end;
+    RemoverGerenciadorDeAplicacoes();
     
     Sleep(1000);
   end;
@@ -381,7 +353,6 @@ begin
   if CurStep = ssPostInstall then
   begin
     AtualizarAppSettings(ExpandConstant('{app}'));
-    AtualizarAppSettings(ExpandConstant('{app}\GerenciadorDeMonitoracao'));
     
     // Registra e inicia o serviço principal
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
