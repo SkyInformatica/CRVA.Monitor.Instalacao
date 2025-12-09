@@ -8,6 +8,7 @@
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
 #define Versao "20251127"
+#define ChaveDoRegistry "Software\Sky Informática Ltda.\SkyDigitalliza.Desktop"
 
 #include "Dependências\CodeDependencies.iss"
 #include "Dependências\UtilitáriosDeAdministraçãoWindows.iss"
@@ -72,6 +73,60 @@ const ComandoDeRemocaoDoServico = 'remover "%s"';
 
 // <CAMINHO_DO_APPSETTINGS> <DIRETORIO_DE_DOCUMENTOS> <EMAIL_DO_USUARIO> <SENHA_DO_USUARIO> <ORGANIZACAO_DO_USUARIO> <ARQUIVO_DE_ARMAZENAMENTO_DE_REGISTROS>
 const ComandoDeAtualizacaoDoAppSettings = 'atualizar-appsettings "%s" "%s" "%s" "%s" "%s" "%s"';
+
+const ValorDiretorioDocumentos = 'DiretorioDocumentos';
+const ValorEmailUsuario = 'EmailUsuario';
+
+function ObterChaveDoRegistry(): String;
+begin
+  Result := '{#ChaveDoRegistry}';
+end;
+
+function LerDiretorioDocumentosAnterior(out Diretorio: String): Boolean;
+begin
+  Result := RegQueryStringValue(HKCU, ObterChaveDoRegistry(), ValorDiretorioDocumentos, Diretorio);
+  if Result and (Diretorio <> '') then
+  begin
+    Log('Diretório de documentos anterior encontrado: ' + Diretorio);
+  end
+  else
+  begin
+    Diretorio := '';
+    Result := False;
+  end;
+end;
+
+function LerEmailUsuarioAnterior(out Email: String): Boolean;
+begin
+  Result := RegQueryStringValue(HKCU, ObterChaveDoRegistry(), ValorEmailUsuario, Email);
+  if Result and (Email <> '') then
+  begin
+    Log('Email de usuário anterior encontrado: ' + Email);
+  end
+  else
+  begin
+    Email := '';
+    Result := False;
+  end;
+end;
+
+procedure SalvarDiretorioDocumentos(Diretorio: String);
+begin
+  if Diretorio <> '' then
+  begin
+    RegWriteStringValue(HKCU, ObterChaveDoRegistry(), ValorDiretorioDocumentos, Diretorio);
+    Log('Diretório de documentos salvo: ' + Diretorio);
+  end;
+end;
+
+procedure SalvarEmailUsuario(Email: String);
+begin
+  if Email <> '' then
+  begin
+    RegWriteStringValue(HKCU, ObterChaveDoRegistry(), ValorEmailUsuario, Email);
+    Log('Email de usuário salvo: ' + Email);
+  end;
+end;
 
 function IniciarGerenciadorDeMonitoracao(): Boolean;
 var
@@ -161,6 +216,9 @@ begin
 end;
 
 procedure InitializeWizard();
+var
+  DiretorioAnterior, EmailAnterior: String;
+  RespostaDialogo: Integer;
 begin
   PaginaInicial := CreateOutputMsgPage(
     wpWelcome,
@@ -216,10 +274,37 @@ begin
   PaginaDeSelecaoDaOrganizacao.OnShouldSkipPage := @DevePularPaginaDeOrganizacao;
   PaginaDeCredenciaisDoWindows.OnShouldSkipPage := @NaoUtilizarCredenciaisDoWindows;
   
-  PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
+  // Verificar se existe diretório anterior e perguntar ao usuário
+  if LerDiretorioDocumentosAnterior(DiretorioAnterior) then
+  begin
+    RespostaDialogo := MsgBox('Foi definido anteriormente o diretório "' + DiretorioAnterior + '" como o diretório de documentos em uma instalação anterior.' + #13#10 + #13#10 + 'Gostaria de manter o mesmo?', mbConfirmation, MB_YESNO);
+    if RespostaDialogo = IDYES then
+    begin
+      PaginaDeSelecaoDoDiretorioDeDocumentos.Add(DiretorioAnterior);
+      PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0] := DiretorioAnterior;
+    end
+    else
+    begin
+      PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
+    end;
+  end
+  else
+  begin
+    PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
+  end;
 
-  PaginaDeCredenciaisDoUsuario.Add('Email:', False);
-  PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
+  // Preencher email anterior se existir
+  if LerEmailUsuarioAnterior(EmailAnterior) then
+  begin
+    PaginaDeCredenciaisDoUsuario.Add('Email:', False);
+    PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
+    PaginaDeCredenciaisDoUsuario.Values[0] := EmailAnterior;
+  end
+  else
+  begin
+    PaginaDeCredenciaisDoUsuario.Add('Email:', False);
+    PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
+  end;
 
   PaginaDeCredenciaisDoWindows.Add('Usuário:', False);
   PaginaDeCredenciaisDoWindows.Add('Senha:', True);
@@ -353,6 +438,10 @@ begin
   if CurStep = ssPostInstall then
   begin
     AtualizarAppSettings(ExpandConstant('{app}'));
+    
+    // Salvar parâmetros da instalação para uso futuro
+    SalvarDiretorioDocumentos(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0]);
+    SalvarEmailUsuario(Email);
     
     // Registra e inicia o serviço principal
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
