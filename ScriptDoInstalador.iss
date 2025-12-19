@@ -37,7 +37,9 @@ MergeDuplicateFiles=no
 DisableDirPage=yes
 
 [Registry]
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; Flags: deletevalue
+Root: HKLM; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control"; ValueType: dword; ValueName: "ServicesPipeTimeout"; ValueData: 120000; Flags: preservestringtype
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
