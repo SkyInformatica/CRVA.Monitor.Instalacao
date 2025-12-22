@@ -34,7 +34,7 @@ OutputDir=Instalador
 WizardStyle=modern dynamic polar includetitlebar
 CloseApplications=force
 MergeDuplicateFiles=no
-DisableDirPage=yes
+DisableDirPage=no
 
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; Flags: deletevalue
@@ -58,14 +58,14 @@ Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\*"; DestDir: "{app}\Gerenci
 Type: files; Name: "{app}\*";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
-Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.temp";
 Type: filesandordirs; Name: "{app}\.old";
 
 [InstallDelete]
 Type: files; Name: "{app}\*";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
-Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.temp";
 Type: filesandordirs; Name: "{app}\.old";
 
 [Code]
@@ -137,7 +137,7 @@ var
 begin
   Result := False;
   CaminhoDoGerenciador := ExpandConstant('{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}');
-  
+
   if FileExists(CaminhoDoGerenciador) then
   begin
     if ExecAsOriginalUser(CaminhoDoGerenciador, '', '', SW_HIDE, ewNoWait, ResultCode) then
@@ -214,7 +214,10 @@ procedure RemoverGerenciadorDeAplicacoes();
 var
   ResultCode: Integer;
 begin
-  ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', Utf8Encode(Format(ComandoDeRemocaoDoServico, ['{#NomeDaAplicacao}'])), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
+  if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+  end;
 end;
 
 procedure InitializeWizard();
@@ -237,13 +240,13 @@ begin
     True,
     ''
   );
-  
+
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico := CreateInputOptionPage(
     PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
-    'Tipo de Instalação', 
+    'Tipo de Instalação',
     'Utilizar usuário e senha administrativa para criar o serviço?',
     'Caso sua máquina tenha políticas de permissão rígorosas, assinale esta opção.',
-    False, 
+    False,
     False
   );
 
@@ -272,10 +275,10 @@ begin
 
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Add('Utilizar credenciais administrativas.');
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0] := False;
-  
+
   PaginaDeSelecaoDaOrganizacao.OnShouldSkipPage := @DevePularPaginaDeOrganizacao;
   PaginaDeCredenciaisDoWindows.OnShouldSkipPage := @NaoUtilizarCredenciaisDoWindows;
-  
+
   // Verificar se existe diretório anterior e perguntar ao usuário
   if LerDiretorioDocumentosAnterior(DiretorioAnterior) then
   begin
@@ -319,7 +322,7 @@ begin
 end;
 
 procedure ObterDominioDoUsuario(out Resultado: String);
-var 
+var
   ResultCode: Integer;
   ListaDeStrings: TArrayOfString;
 begin
@@ -383,7 +386,7 @@ begin
       Result := False;
       Exit;
     end;
-    
+
     OrganizacaoId := Organizacoes[PaginaDeSelecaoDaOrganizacao.SelectedValueIndex].Id;
   end
   else if CurPageID = PaginaDeCredenciaisDoWindows.ID then
@@ -404,7 +407,7 @@ begin
   CaminhoDoAppSettings := diretorioDoAppSettings + '\appsettings.json';
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
   ArquivoDeArmazenamentoDeRegistros := SubstituirString(ExpandConstant('{app}') + '\Armazenamento\Registros.db', '\', '/');
-  
+
   ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', UTF8Encode(Format(ComandoDeAtualizacaoDoAppSettings, [CaminhoDoAppSettings, DiretorioDeDocumentos, Email, Senha, OrganizacaoId, ArquivoDeArmazenamentoDeRegistros])), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
 end;
 
@@ -433,22 +436,22 @@ begin
   begin
     PararGerenciadorDeMonitoracao();
     RemoverGerenciadorDeAplicacoes();
-    
+
     Sleep(1000);
   end;
 
   if CurStep = ssPostInstall then
   begin
     AtualizarAppSettings(ExpandConstant('{app}'));
-    
+
     // Salvar parâmetros da instalação para uso futuro
     SalvarDiretorioDocumentos(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0]);
     SalvarEmailUsuario(Email);
-    
+
     // Registra e inicia o serviço principal
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', 'iniciar "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
-    
+
     // Inicia o gerenciador de monitoração como usuário normal
     IniciarGerenciadorDeMonitoracao();
   end;
