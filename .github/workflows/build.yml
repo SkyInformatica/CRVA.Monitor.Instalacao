@@ -3,8 +3,9 @@ on:
   push:
     branches:
       - "main"
-    paths: 
-      - 'Binários/monitor/**'
+      - "beta"
+    paths:
+      - "Binários/monitor/**"
 
 permissions:
   contents: write
@@ -32,6 +33,6 @@ jobs:
         with:
           name: Sky Digitaliza - Desktop v${{ env.VERSION }}
           tag: ${{ env.VERSION }}
-          makeLatest: true
+          makeLatest: false
           generateReleaseNotes: true
           artifactErrorsFailBuild: true
