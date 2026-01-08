@@ -7,7 +7,7 @@
 #define CaminhoDoFonteDoGerenciadorDeMonitoracao "Binários\gerenciador-de-monitoração"
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
-#define Versao "20251127"
+#define Versao "20251223"
 #define ChaveDoRegistry "Software\Sky Informática Ltda.\SkyDigitalliza.Desktop"
 
 #include "Dependências\CodeDependencies.iss"
@@ -34,7 +34,7 @@ OutputDir=Instalador
 WizardStyle=modern dynamic polar includetitlebar
 CloseApplications=force
 MergeDuplicateFiles=no
-DisableDirPage=no
+DisableDirPage=yes
 
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; Flags: deletevalue
