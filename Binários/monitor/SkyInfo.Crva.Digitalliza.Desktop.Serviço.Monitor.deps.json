@@ -1464,6 +1464,14 @@
           }
         }
       },
+      "Octokit/14.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Octokit.dll": {
+            "assemblyVersion": "14.0.0.0",
+            "fileVersion": "14.0.0.0"
+          }
+        }
+      },
       "PDFium.LinuxV2/1.1.4": {},
       "PDFium.WindowsV2/1.1.4": {},
       "PDFiumSharpV2/1.1.4": {
@@ -2405,6 +2413,7 @@
         "dependencies": {
           "Microsoft.Extensions.Caching.Abstractions": "9.0.4",
           "Microsoft.Extensions.Caching.Memory": "9.0.4",
+          "Octokit": "14.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Domínio.ServiçoWindows": "1.0.0",
           "SkyInfo.Crva.Digitalliza.Desktop.Infraestrutura": "1.0.0"
         },
@@ -2996,6 +3005,13 @@
       "sha512": "sha512-AYSiCHp1PLzWKVf7hEL3MJ0q9kzOWMNIaTVysXk4XKrDBzK5PF2wpd4LsAl+EIQ2Hbvu+vw4oFaexcXzCuY1lQ==",
       "path": "nodatime/3.1.11",
       "hashPath": "nodatime.3.1.11.nupkg.sha512"
+    },
+    "Octokit/14.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jGOuTH1l+TCpJH+fwYOp7USzHDuGfN1jKbLz3J2COwyn+wL08eynvpnM6rY2qkzIEXum3PN2p2QkP3BW/p9Qcw==",
+      "path": "octokit/14.0.0",
+      "hashPath": "octokit.14.0.0.nupkg.sha512"
     },
     "PDFium.LinuxV2/1.1.4": {
       "type": "package",
