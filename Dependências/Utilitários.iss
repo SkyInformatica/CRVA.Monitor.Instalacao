@@ -135,7 +135,7 @@ begin
       Break;
     end;
   end;
-  
+
   Result := SelectedIndex;
 end;
 

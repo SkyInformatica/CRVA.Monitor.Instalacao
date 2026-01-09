@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - "main"
+      - "beta"
+    paths:
+      - "Binários/monitor/**"
 
 permissions:
   contents: write
@@ -24,20 +27,12 @@ jobs:
           echo "VERSION=$version" >> $env:GITHUB_ENV
         shell: pwsh
 
-      - name: Compilar Instalador Inno
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
-        with:
-          path: ScriptDoInstalador.iss
-          options: /O+ /dVersao="${{ env.VERSION }}"
-
       - name: Criar release no GitHub
         id: create_release
         uses: ncipollo/release-action@v1.14.0
         with:
           name: Sky Digitaliza - Desktop v${{ env.VERSION }}
           tag: ${{ env.VERSION }}
-          artifacts: D:\a\SkyDigitalliza.Desktop\SkyDigitalliza.Desktop\Instalador\SkyDigitalliza.Desktop.Instalador.exe
-          artifactContentType: application/octet-stream
-          makeLatest: true
+          makeLatest: false
           generateReleaseNotes: true
           artifactErrorsFailBuild: true

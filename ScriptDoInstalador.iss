@@ -7,7 +7,8 @@
 #define CaminhoDoFonteDoGerenciadorDeMonitoracao "Binários\gerenciador-de-monitoração"
 #define CaminhoDoAssistenteDeInstalacao "SkyInfo.Crva.Digitalliza.Desktop.Instalador.exe"
 #define public Dependency_Path_NetCoreCheck "Dependências\NetCoreCheck\"
-#define Versao "20250527.dev"
+#define Versao "20251223"
+#define ChaveDoRegistry "Software\Sky Informática Ltda.\SkyDigitalliza.Desktop"
 
 #include "Dependências\CodeDependencies.iss"
 #include "Dependências\UtilitáriosDeAdministraçãoWindows.iss"
@@ -29,14 +30,16 @@ PrivilegesRequired=admin
 OutputBaseFilename={#NomeDaAplicacao}.Instalador
 Compression=lzma
 SolidCompression=yes
-OutputDir=D:\a\{#NomeDaAplicacao}\{#NomeDaAplicacao}\Instalador
-WizardStyle=modern
+OutputDir=Instalador
+WizardStyle=modern dynamic polar includetitlebar
 CloseApplications=force
 MergeDuplicateFiles=no
 DisableDirPage=yes
 
 [Registry]
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; Flags: deletevalue
+Root: HKLM; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "SkyDigitallizaGerenciadorMonitoracao"; ValueData: """{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}"""; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control"; ValueType: dword; ValueName: "ServicesPipeTimeout"; ValueData: 120000; Flags: preservestringtype
 
 [Languages]
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
@@ -44,39 +47,88 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 [Files]
 Source: "Binários\assistente-de-instalação\*"; DestDir: "{tmp}"; Flags: replacesameversion;
 
-; --> Arquivos x64
 [Files]
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
-Source: "{#CaminhoDaFonteDaAplicacao}\x64\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: Is64BitInstallMode;
-Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x64\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: Is64BitInstallMode;
-
-; --> Arquivos x86
-[Files]
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDaFonteDaAplicacao}\x86\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression; Check: InstalacaoEm32Bits;
-Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\x86\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion; Check: InstalacaoEm32Bits;
+Source: "{#CaminhoDaFonteDaAplicacao}\{#NomeDoExecutavelDaAplicacao}"; DestDir: "{app}"; Flags: replacesameversion;
+Source: "{#CaminhoDaFonteDaAplicacao}\appsettings.json"; DestDir: "{app}"; Flags: replacesameversion;
+Source: "{#CaminhoDaFonteDaAplicacao}\*"; DestDir: "{app}"; Excludes: "appsettings.Development.json,Armazenamento\*"; Flags: recursesubdirs createallsubdirs replacesameversion;
+Source: "{#CaminhoDaFonteDaAplicacao}\Armazenamento\*"; DestDir: "{app}\Armazenamento"; Flags: recursesubdirs createallsubdirs uninsneveruninstall noencryption nocompression;
+Source: "{#CaminhoDoFonteDoGerenciadorDeMonitoracao}\*"; DestDir: "{app}\GerenciadorDeMonitoracao"; Flags: recursesubdirs createallsubdirs replacesameversion;
 
 [UninstallDelete]
 Type: files; Name: "{app}\*";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
-Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.temp";
 Type: filesandordirs; Name: "{app}\.old";
 
 [InstallDelete]
 Type: files; Name: "{app}\*";
 Type: filesandordirs; Name: "{app}\Monitor";
 Type: filesandordirs; Name: "{app}\GerenciadorDeMonitoracao";
-Type: filesandordirs; Name: "{app}\.temp"
+Type: filesandordirs; Name: "{app}\.temp";
 Type: filesandordirs; Name: "{app}\.old";
 
 [Code]
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
+const ComandoDeRemocaoDoServico = 'remover "%s"';
+
+// <CAMINHO_DO_APPSETTINGS> <DIRETORIO_DE_DOCUMENTOS> <EMAIL_DO_USUARIO> <SENHA_DO_USUARIO> <ORGANIZACAO_DO_USUARIO> <ARQUIVO_DE_ARMAZENAMENTO_DE_REGISTROS>
+const ComandoDeAtualizacaoDoAppSettings = 'atualizar-appsettings "%s" "%s" "%s" "%s" "%s" "%s"';
+
+const ValorDiretorioDocumentos = 'DiretorioDocumentos';
+const ValorEmailUsuario = 'EmailUsuario';
+
+function ObterChaveDoRegistry(): String;
+begin
+  Result := '{#ChaveDoRegistry}';
+end;
+
+function LerDiretorioDocumentosAnterior(out Diretorio: String): Boolean;
+begin
+  Result := RegQueryStringValue(HKCU, ObterChaveDoRegistry(), ValorDiretorioDocumentos, Diretorio);
+  if Result and (Diretorio <> '') then
+  begin
+    Log('Diretório de documentos anterior encontrado: ' + Diretorio);
+  end
+  else
+  begin
+    Diretorio := '';
+    Result := False;
+  end;
+end;
+
+function LerEmailUsuarioAnterior(out Email: String): Boolean;
+begin
+  Result := RegQueryStringValue(HKCU, ObterChaveDoRegistry(), ValorEmailUsuario, Email);
+  if Result and (Email <> '') then
+  begin
+    Log('Email de usuário anterior encontrado: ' + Email);
+  end
+  else
+  begin
+    Email := '';
+    Result := False;
+  end;
+end;
+
+procedure SalvarDiretorioDocumentos(Diretorio: String);
+begin
+  if Diretorio <> '' then
+  begin
+    RegWriteStringValue(HKCU, ObterChaveDoRegistry(), ValorDiretorioDocumentos, Diretorio);
+    Log('Diretório de documentos salvo: ' + Diretorio);
+  end;
+end;
+
+procedure SalvarEmailUsuario(Email: String);
+begin
+  if Email <> '' then
+  begin
+    RegWriteStringValue(HKCU, ObterChaveDoRegistry(), ValorEmailUsuario, Email);
+    Log('Email de usuário salvo: ' + Email);
+  end;
+end;
 
 function IniciarGerenciadorDeMonitoracao(): Boolean;
 var
@@ -85,7 +137,7 @@ var
 begin
   Result := False;
   CaminhoDoGerenciador := ExpandConstant('{app}\GerenciadorDeMonitoracao\{#NomeDoExecutavelDoGerenciadorDeMonitoracao}');
-  
+
   if FileExists(CaminhoDoGerenciador) then
   begin
     if ExecAsOriginalUser(CaminhoDoGerenciador, '', '', SW_HIDE, ewNoWait, ResultCode) then
@@ -146,11 +198,6 @@ begin
   Result := PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0] = False;
 end;
 
-function InstalacaoEm32Bits: Boolean;
-begin
-  Result := Is64BitInstallMode() = False;
-end;
-
 function ObterParametrosDeRegistroDoServico(): String;
 begin
   if not UtilizarCredenciaisDoWindows then
@@ -163,7 +210,20 @@ begin
   end;
 end;
 
+procedure RemoverGerenciadorDeAplicacoes();
+var
+  ResultCode: Integer;
+begin
+  if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+  end;
+end;
+
 procedure InitializeWizard();
+var
+  DiretorioAnterior, EmailAnterior: String;
+  RespostaDialogo: Integer;
 begin
   PaginaInicial := CreateOutputMsgPage(
     wpWelcome,
@@ -180,13 +240,13 @@ begin
     True,
     ''
   );
-  
+
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico := CreateInputOptionPage(
     PaginaDeSelecaoDoDiretorioDeDocumentos.ID,
-    'Tipo de Instalação', 
+    'Tipo de Instalação',
     'Utilizar usuário e senha administrativa para criar o serviço?',
     'Caso sua máquina tenha políticas de permissão rígorosas, assinale esta opção.',
-    False, 
+    False,
     False
   );
 
@@ -215,14 +275,41 @@ begin
 
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Add('Utilizar credenciais administrativas.');
   PaginaDeSelecaoDoTipoDeInicializacaoDoServico.Values[0] := False;
-  
+
   PaginaDeSelecaoDaOrganizacao.OnShouldSkipPage := @DevePularPaginaDeOrganizacao;
   PaginaDeCredenciaisDoWindows.OnShouldSkipPage := @NaoUtilizarCredenciaisDoWindows;
-  
-  PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
 
-  PaginaDeCredenciaisDoUsuario.Add('Email:', False);
-  PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
+  // Verificar se existe diretório anterior e perguntar ao usuário
+  if LerDiretorioDocumentosAnterior(DiretorioAnterior) then
+  begin
+    RespostaDialogo := MsgBox('Foi definido anteriormente o diretório "' + DiretorioAnterior + '" como o diretório de documentos em uma instalação anterior.' + #13#10 + #13#10 + 'Gostaria de manter o mesmo?', mbConfirmation, MB_YESNO);
+    if RespostaDialogo = IDYES then
+    begin
+      PaginaDeSelecaoDoDiretorioDeDocumentos.Add(DiretorioAnterior);
+      PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0] := DiretorioAnterior;
+    end
+    else
+    begin
+      PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
+    end;
+  end
+  else
+  begin
+    PaginaDeSelecaoDoDiretorioDeDocumentos.Add('');
+  end;
+
+  // Preencher email anterior se existir
+  if LerEmailUsuarioAnterior(EmailAnterior) then
+  begin
+    PaginaDeCredenciaisDoUsuario.Add('Email:', False);
+    PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
+    PaginaDeCredenciaisDoUsuario.Values[0] := EmailAnterior;
+  end
+  else
+  begin
+    PaginaDeCredenciaisDoUsuario.Add('Email:', False);
+    PaginaDeCredenciaisDoUsuario.Add('Senha:', True);
+  end;
 
   PaginaDeCredenciaisDoWindows.Add('Usuário:', False);
   PaginaDeCredenciaisDoWindows.Add('Senha:', True);
@@ -235,7 +322,7 @@ begin
 end;
 
 procedure ObterDominioDoUsuario(out Resultado: String);
-var 
+var
   ResultCode: Integer;
   ListaDeStrings: TArrayOfString;
 begin
@@ -299,7 +386,7 @@ begin
       Result := False;
       Exit;
     end;
-    
+
     OrganizacaoId := Organizacoes[PaginaDeSelecaoDaOrganizacao.SelectedValueIndex].Id;
   end
   else if CurPageID = PaginaDeCredenciaisDoWindows.ID then
@@ -313,35 +400,15 @@ end;
 
 procedure AtualizarAppSettings(diretorioDoAppSettings: String);
 var
-  JSONString, CaminhoDoAppSettings: AnsiString;
+  CaminhoDoAppSettings: AnsiString;
+  ResultCode: Integer;
+  ArquivoDeArmazenamentoDeRegistros: AnsiString;
 begin
   CaminhoDoAppSettings := diretorioDoAppSettings + '\appsettings.json';
   DiretorioDeDocumentos := SubstituirString(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0], '\', '/');
-  JSONString := ObterTextoDoArquivo(CaminhoDoAppSettings);
-  if JSONString = '' then
-  begin
-    MsgBox('Falha ao ler o appsettings.json ou o arquivo está vazio.', mbError, MB_OK);
-    Exit;
-  end;
-  
-  JSONString := SubstituirString(JSONString, '"DIRETORIO_DE_DOCUMENTOS"', '"' + DiretorioDeDocumentos + '"');
-  JSONString := SubstituirString(JSONString, '"EMAIL_DO_USUARIO"', '"' + Email + '"');
-  JSONString := SubstituirString(JSONString, '"SENHA_DO_USUARIO"', '"' + Senha + '"');
-  JSONString := SubstituirString(JSONString, '"ORGANIZACAO_DO_USUARIO"', '"' + OrganizacaoId + '"');
-  
-  if not SameStr(DominioValido, '') then
-  begin
-    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + DominioValido + '/' + NomeUsuarioWindows + '"');
-  end
-  else
-  begin
-    JSONString := SubstituirString(JSONString, '"USUARIO_WINDOWS"', '"' + NomeUsuarioWindows + '"');
-  end;
-  
-  JSONString := SubstituirString(JSONString, '"SENHA_WINDOWS"', '"' + SenhaWindows + '"');
+  ArquivoDeArmazenamentoDeRegistros := SubstituirString(ExpandConstant('{app}') + '\Armazenamento\Registros.db', '\', '/');
 
-  Log(JSONString);
-  SalvarTextoEmArquivo(CaminhoDoAppSettings, JSONString);
+  ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', UTF8Encode(Format(ComandoDeAtualizacaoDoAppSettings, [CaminhoDoAppSettings, DiretorioDeDocumentos, Email, Senha, OrganizacaoId, ArquivoDeArmazenamentoDeRegistros])), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
 end;
 
 procedure ExibirMensagemComResultCode(Mensagem: String; ResultCode: Integer);
@@ -353,19 +420,11 @@ begin
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-var
-  ResultCode: Integer;
 begin
   if CurUninstallStep = usUninstall then
   begin
-    // Para o gerenciador de monitoração
     PararGerenciadorDeMonitoracao();
-    
-    // Para o serviço principal
-    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    end;
+    RemoverGerenciadorDeAplicacoes();
   end;
 end;
 
@@ -375,27 +434,24 @@ var
 begin
   if CurStep = ssInstall then
   begin
-    // Para o gerenciador de monitoração se estiver rodando
     PararGerenciadorDeMonitoracao();
-    
-    // Para o serviço principal
-    if Exec('sc', 'stop "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-    begin
-      Exec('sc', 'delete "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
-    end;
-    
+    RemoverGerenciadorDeAplicacoes();
+
     Sleep(1000);
   end;
 
   if CurStep = ssPostInstall then
   begin
     AtualizarAppSettings(ExpandConstant('{app}'));
-    AtualizarAppSettings(ExpandConstant('{app}\GerenciadorDeMonitoracao'));
-    
+
+    // Salvar parâmetros da instalação para uso futuro
+    SalvarDiretorioDocumentos(PaginaDeSelecaoDoDiretorioDeDocumentos.Values[0]);
+    SalvarEmailUsuario(Email);
+
     // Registra e inicia o serviço principal
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', ObterParametrosDeRegistroDoServico(), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
     ExecAndLogOutput(ExpandConstant('{tmp}') + '\{#CaminhoDoAssistenteDeInstalacao}', 'iniciar "{#NomeDaAplicacao}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, nil);
-    
+
     // Inicia o gerenciador de monitoração como usuário normal
     IniciarGerenciadorDeMonitoracao();
   end;
