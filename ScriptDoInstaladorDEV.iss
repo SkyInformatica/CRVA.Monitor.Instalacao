@@ -72,7 +72,7 @@ Type: filesandordirs; Name: "{app}\.old";
 const ComandoDeRegistroNormal = 'registrar "%s" "%s"';
 const ComandoDeRegistroComCredenciais = 'registrar "%s" "%s" -u "%s" -s "%s"';
 const ComandoDeRemocaoDoServico = 'remover "%s"';
-const EndpointDeAutenticacao = 'https://skydigitalliza-servidor.azurewebsites.net/api/autenticacao/autenticar';
+const EndpointDeAutenticacao = 'http://localhost:5000/api/autenticacao/autenticar';
 
 // <CAMINHO_DO_APPSETTINGS> <DIRETORIO_DE_DOCUMENTOS> <EMAIL_DO_USUARIO> <SENHA_DO_USUARIO> <ORGANIZACAO_DO_USUARIO> <ARQUIVO_DE_ARMAZENAMENTO_DE_REGISTROS>
 const ComandoDeAtualizacaoDoAppSettings = 'atualizar-appsettings "%s" "%s" "%s" "%s" "%s" "%s"';

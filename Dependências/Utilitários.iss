@@ -1,8 +1,6 @@
 #include 'JsonUtils.iss'
 
 [Code]
-const EndpointDeAutenticacao = 'https://skydigitalliza-servidor.azurewebsites.net/api/autenticacao/autenticar';
-
 // Exec with output stored in result.
 // ResultString will only be altered if True is returned.
 function ExecWithResult(
@@ -179,7 +177,7 @@ begin
 end;
 
 // Função de autenticação via POST.
-function ValidarCredenciais(Email, Senha: String): String;
+function ValidarCredenciais(Email, Senha, EndpointDeAutenticacao: String): String;
 var
   HttpRequest: Variant;
   Data: String;
